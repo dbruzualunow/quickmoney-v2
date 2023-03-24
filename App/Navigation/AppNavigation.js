@@ -1,9 +1,16 @@
 /* eslint-disable prettier/prettier */
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import React, {useContext} from 'react';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import React, { useContext } from "react";
 
-import LoginScreen from '../Screens/Authentication/LoginScreen';
+// no Auth
+import LoginScreen from "../Screens/Authentication/LoginScreen";
+import SignUpScreen1 from "../Screens/Authentication/SignUpScreen1";
+import ForgotPasswordScreen from "../Screens/Authentication/ForgotPasswordScreen";
+
+// Auth
+import HomeScreen from "../Screens/HomeScreen";
+
 /* import SignUpScreen1 from '../Screens/Authentication/SignUpScreen1';
 import AddScreen from '../Screens/Game/AddScreen';
 import GameScreen from '../Screens/Game/GameScreen';
@@ -20,29 +27,30 @@ import ChainSimulatorSreen from '../Screens/ChainSimulator/ChainSimulatorScreen'
 import ScratchCardScreen from '../Screens/ScratchCard/ScratchCardScreen'; */
 /* import {Lose} from '../Screens/Reward/Lose';
 import {Congratulations} from '../Screens/Reward/Congratulations'; */
-import {AuthenticationContext} from '../Context/AuthenticationContextProvider';
+import { AuthenticationContext } from "../Context/AuthenticationContextProvider";
 
 const Stack = createStackNavigator();
 
 const AppNavigation = () => {
-  const {state} = useContext(AuthenticationContext);
+  const { state } = useContext(AuthenticationContext);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         {state.userToken == null ? (
           // No token found, user isn't signed in
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
-            {/* <Stack.Screen name="SignUp1" component={SignUpScreen1} />
+            <Stack.Screen name="SignUp1" component={SignUpScreen1} />
             <Stack.Screen
               name="ForgotPassword"
               component={ForgotPasswordScreen}
-            /> */}
+            />
           </>
         ) : (
           // User is signed in
           <>
+            <Stack.Screen name="Home" component={HomeScreen} />
             {/* <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="EditProfile" component={EditProfileScreen} />

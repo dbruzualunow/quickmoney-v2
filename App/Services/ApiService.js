@@ -16,10 +16,10 @@ class ApiService {
         const api = axios.create({});
         this.api = api;
         this.api.defaults.baseURL = BASE_URL;
-        if (__DEV__) {
+        /* if (__DEV__) {
             this.api.interceptors.request.use(AxiosLogger.requestLogger);
             this.api.interceptors.response.use(AxiosLogger.responseLogger);
-        }
+        } */
     }
 
     setAuthorizationHeader(authorizationToken) {
