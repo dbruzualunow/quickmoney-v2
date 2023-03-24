@@ -10,6 +10,8 @@ import ForgotPasswordScreen from "../Screens/Authentication/ForgotPasswordScreen
 
 // Auth
 import HomeScreen from "../Screens/HomeScreen";
+import ProfileScreen from "../Screens/Profile/ProfileScreen";
+import EditProfileScreen from "../Screens/Profile/EditProfileScreen";
 
 /* import SignUpScreen1 from '../Screens/Authentication/SignUpScreen1';
 import AddScreen from '../Screens/Game/AddScreen';
@@ -51,6 +53,8 @@ const AppNavigation = () => {
           // User is signed in
           <>
             <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Screen name="EditProfile" component={EditProfileScreen} />
             {/* <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="EditProfile" component={EditProfileScreen} />
