@@ -78,7 +78,6 @@ const GameScreen = ({ navigation }) => {
   const [tragaperraIndex, setTragaperraIndex] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [loadingAdd, setLoadingAdd] = useState(false);
 
   useEffect(() => {
     ApiService.getGameConfig()
@@ -182,9 +181,9 @@ const GameScreen = ({ navigation }) => {
 
   // const onCloseReward = async (reward, response) => {
   //     setTimeout(() => {
-  //         navigation.navigate('ScratchCardScreen', {
-  //             "winningNumbers": response?.data, tragaperraIndex, dadoIndex, cardIndex
-  //         })
+    //   navigation.navigate('ScratchCardScreen', {
+    //       "winningNumbers": response?.data, tragaperraIndex, dadoIndex, cardIndex
+    //      })
   //     }, 100)
   // }
 
@@ -232,9 +231,7 @@ const GameScreen = ({ navigation }) => {
   // }
 
   const playGame = async () => {
-    if (loadingAdd) {
-      return;
-    }
+
     // 3 CARTAS
     for (let i = 0; i < numCardsAvailable; i++) {
       if (cardIndex[i] === null) {
@@ -280,8 +277,10 @@ const GameScreen = ({ navigation }) => {
 
       setYourBet(bet);
       const response = await ApiService.playGame(bet);
+      navigation.navigate('ScratchCardScreen', {
+        "winningNumbers": response.data, tragaperraIndex, dadoIndex, cardIndex
+    })
       setIsLoading(true);
-      showRewarded(response);
     } catch (error) {
       console.log("error", error.response.data);
       Alert.alert(
