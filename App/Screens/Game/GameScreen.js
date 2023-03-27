@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Alert,
   Dimensions,
@@ -181,9 +181,9 @@ const GameScreen = ({ navigation }) => {
 
   // const onCloseReward = async (reward, response) => {
   //     setTimeout(() => {
-    //   navigation.navigate('ScratchCardScreen', {
-    //       "winningNumbers": response?.data, tragaperraIndex, dadoIndex, cardIndex
-    //      })
+  //   navigation.navigate('ScratchCardScreen', {
+  //       "winningNumbers": response?.data, tragaperraIndex, dadoIndex, cardIndex
+  //      })
   //     }, 100)
   // }
 
@@ -231,7 +231,6 @@ const GameScreen = ({ navigation }) => {
   // }
 
   const playGame = async () => {
-
     // 3 CARTAS
     for (let i = 0; i < numCardsAvailable; i++) {
       if (cardIndex[i] === null) {
@@ -277,9 +276,12 @@ const GameScreen = ({ navigation }) => {
 
       setYourBet(bet);
       const response = await ApiService.playGame(bet);
-      navigation.navigate('ScratchCardScreen', {
-        "winningNumbers": response.data, tragaperraIndex, dadoIndex, cardIndex
-    })
+      navigation.navigate("ScratchCardScreen", {
+        winningNumbers: response.data,
+        tragaperraIndex,
+        dadoIndex,
+        cardIndex,
+      });
       setIsLoading(true);
     } catch (error) {
       console.log("error", error.response.data);

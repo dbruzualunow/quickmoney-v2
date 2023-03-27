@@ -11,9 +11,10 @@ import {
   Modal,
   ScrollView,
 } from "react-native";
+import { AdsContext } from "../../Context/AdsContextProvider";
 import { ScratchCard } from "rn-scratch-card";
 import LinearGradient from "react-native-linear-gradient";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Card } from "../../Components/Games/Card";
 import { Craps } from "../../Components/Games/Craps";
 import { Tragaperra } from "../../Components/Games/Tragaperra";
@@ -29,6 +30,8 @@ import {
 } from "../../../Metrics";
 
 const ScratchCardScreen = ({ route, navigation }) => {
+  const { showRewardedAd } = useContext(AdsContext);
+
   const TYPES = ["corazones", "treboles", "diamantes", "picas"];
   const [result, setResult] = useState(false);
   const animatedListCurrency = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -65,6 +68,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
   };
 
   useEffect(() => {
+    showRewardedAd();
     setTimeout(() => {
       let WC = [];
       let WD = [];
@@ -85,16 +89,16 @@ const ScratchCardScreen = ({ route, navigation }) => {
       setYourDices(dadoIndex);
       setYourTragaPerras(tragaperraIndex);
       setIsLoading(false);
-    }, 1000);
+    }, 200);
   }, []);
 
   const handleScratch = (scratchPercentage) => {
     if (scratchPercentage < 54) {
       return;
     }
-    setResult(true)
-    setShowButton(true)
-    setModalVisible(true)
+    setResult(true);
+    setShowButton(true);
+    setModalVisible(true);
   };
 
   return (
@@ -104,7 +108,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
         style={styles.container}
       >
         {isLoading ? (
-          <ActivityIndicator
+          {/* <ActivityIndicator
             size="large"
             color="#fff"
             style={{
@@ -113,7 +117,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
               left: "55%",
               transform: [{ translateX: -50 }, { translateY: -50 }],
             }}
-          />
+          /> */}
         ) : (
           <>
             <View style={styles.gameContainer}>
