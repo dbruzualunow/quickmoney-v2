@@ -108,16 +108,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
         style={styles.container}
       >
         {isLoading ? (
-          {/* <ActivityIndicator
-            size="large"
-            color="#fff"
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "55%",
-              transform: [{ translateX: -50 }, { translateY: -50 }],
-            }}
-          /> */}
+          <></>
         ) : (
           <>
             <View style={styles.gameContainer}>
