@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Text, View, Image, ScrollView, Alert } from 'react-native'
-import { RewardedAd, RewardedAdEventType, TestIds } from '@react-native-firebase/admob';
 
 import CustomButton from '../../Components/CustomUI/Button'
 import Header from '../../Components/CustomUI/Header'
@@ -40,7 +39,7 @@ const AddScreen = ({ navigation }) => {
 
     const showRewarded = () => {
         setIsLoadingAdd(true)
-        const rewarded = RewardedAd.createForAdRequest(adUnitId);
+        /* const rewarded = RewardedAd.createForAdRequest(adUnitId);
 
         // only for testing
         // const rewarded = RewardedAd.createForAdRequest('ca-app-pub-3940256099942544/5224354917');
@@ -67,13 +66,13 @@ const AddScreen = ({ navigation }) => {
             }
             return null;
         });
-        rewarded.load();
+        rewarded.load(); */
     }
 
     const onReward = (reward) => {
-        ApiService.postAdVisualization()
+       /*  ApiService.postAdVisualization()
         setIsVisibleSuccessModal(true)
-        refreshUser()
+        refreshUser() */
         setIsLoadingAdd(false)
     }
 

@@ -1504,9 +1504,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@react-native-async-storage/async-storage@react-native-async-storage/async-storage":
-  version "1.17.12"
-  resolved "https://codeload.github.com/react-native-async-storage/async-storage/tar.gz/02477f1b55e9403219297d0047f9cf110a1c76e9"
+"@react-native-async-storage/async-storage@^1.18.0":
+  version "1.18.0"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.18.0.tgz#0cc05bcf715c7ab9edd5783bbe04b5e755ed30b1"
+  integrity sha512-E1KYIXlJTm4NUw1bRPdYueRdp8e//7pLb2i8JY+YIYSOxFi0usycFDXkkGgPqvfn7nW6o2G2TZvXUYpBVHenWA==
   dependencies:
     merge-options "^3.0.4"
 
@@ -5680,6 +5681,11 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "^1.2.6"
 
+moment@^2.29.4:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -6654,6 +6660,7 @@ rn-fetch-blob@^0.12.0:
   dependencies:
     base-64 "0.1.0"
     glob "7.0.6"
+
 rn-scratch-card@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/rn-scratch-card/-/rn-scratch-card-1.1.0.tgz#56217aa0603cbbb0d9392fd6a93b9af68254aaf3"
