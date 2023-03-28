@@ -20,7 +20,6 @@ import TopPlayersCard from "../Components/Home/TopPlayersCard";
 import TopChainsCard from "../Components/Home/TopChainsCard";
 import ApiService from "../Services/ApiService";
 import { AuthenticationContext } from "../Context/AuthenticationContextProvider";
-import { AdsContext } from "../Context/AdsContextProvider";
 import { moderateScale, horizontalScale, verticalScale } from "../../Metrics";
 
 const HomeScreen = (props) => {
@@ -40,7 +39,6 @@ const HomeScreen = (props) => {
   const [loading, setLoading] = useState(true);
 
   const { signOut } = useContext(AuthenticationContext);
-  const { showRewardedAd } = useContext(AdsContext);
 
   const getTotalEarnedPrices = async () => {
     try {
@@ -241,7 +239,7 @@ const HomeScreen = (props) => {
                     ))}
                 </View>
               )}
-              <Pressable onPress={() => showRewardedAd()}>
+              <Pressable onPress={() => navigation.navigate("PlayGame")}>
                 <View style={styles.TestYourLuck}>
                   <Text
                     style={{
