@@ -5,6 +5,7 @@ import {
   AppodealAdType,
   AppodealSdkEvent,
 } from "react-native-appodeal";
+import { Alert } from "react-native/Libraries/Alert/Alert";
 
 const adTypes =
   AppodealAdType.INTERSTITIAL |
@@ -19,13 +20,19 @@ Appodeal.initialize(
 Appodeal.addEventListener(AppodealSdkEvent.INITIALIZED, () =>
   console.log("Appodeal SDK did initialize")
 );
-Appodeal.cache(AppodealAdType.REWARDED_VIDEO);
 export const AdsContext = createContext();
 
 function AdsContextProvider({ children }) {
+  useEffect(() => {
+    Appodeal.cache(adTypes);
+  }, []);
+
   const showRewardedAd = () => {
-    console.log("spotted");
-    Appodeal.show(AppodealAdType.REWARDED_VIDEO);
+    try {
+      Appodeal.show(AppodealAdType.REWARDED_VIDEO);
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    }
   };
   return (
     <AdsContext.Provider value={{ showRewardedAd }}>
