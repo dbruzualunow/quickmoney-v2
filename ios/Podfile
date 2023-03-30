@@ -1,3 +1,5 @@
+source 'https://github.com/appodeal/CocoaPods.git'
+source 'https://cdn.cocoapods.org/'
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
@@ -23,6 +25,8 @@ end
 
 target 'QuickMoney' do
   config = use_native_modules!
+  use_frameworks!
+  $RNFirebaseAsStaticFramework = true
 
   # Flags change depending on the env values.
   flags = get_default_flags()
@@ -30,7 +34,6 @@ target 'QuickMoney' do
   pod 'Firebase', :modular_headers => true
   pod 'FirebaseCore', :modular_headers => true
   pod 'GoogleUtilities', :modular_headers => true
-  $RNFirebaseAsStaticFramework = true
 
   use_react_native!(
     :path => config[:reactNativePath],
@@ -43,10 +46,40 @@ target 'QuickMoney' do
     #
     # Note that if you have use_frameworks! enabled, Flipper will not work and
     # you should disable the next line.
-    :flipper_configuration => flipper_config,
+    # :flipper_configuration => flipper_config,
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
+
+
+    pod 'Google-Mobile-Ads-SDK'
+    pod 'APDAdColonyAdapter', '3.0.2.1'
+    pod 'BidMachineAdColonyAdapter', '~> 2.0.0.0'
+    pod 'APDAdjustAdapter', '3.0.2.1'
+    pod 'APDAppLovinAdapter', '3.0.2.1'
+    pod 'APDAppsFlyerAdapter', '3.0.2.1'
+    pod 'APDBidMachineAdapter', '3.0.2.1' # Required
+    pod 'BidMachineAmazonAdapter', '~> 2.0.0.0'
+    pod 'BidMachineCriteoAdapter', '~> 2.0.0.0'
+    pod 'BidMachineSmaatoAdapter', '~> 2.0.0.0'
+    pod 'BidMachineTapjoyAdapter', '~> 2.0.0.0'
+    pod 'BidMachinePangleAdapter', '~> 2.0.0.0'
+    pod 'BidMachineNotsyAdapter', '~> 2.0.0.4'
+    pod 'APDFirebaseAdapter', '3.0.2.1'
+    pod 'APDGoogleAdMobAdapter', '3.0.2.1'
+    pod 'APDIABAdapter', '3.0.2.1' # Required
+    pod 'APDIronSourceAdapter', '3.0.2.1'
+    pod 'APDFacebookAdapter', '3.0.2.1'
+    pod 'APDMetaAudienceNetworkAdapter', '3.0.2.1'
+    pod 'BidMachineMetaAudienceAdapter', '~> 2.0.0.0'
+    pod 'APDMyTargetAdapter', '3.0.2.1'
+    pod 'BidMachineMyTargetAdapter', '~> 2.0.0.2'
+    pod 'APDStackAnalyticsAdapter', '3.0.2.1' # Required
+    pod 'APDUnityAdapter', '3.0.2.1'
+    pod 'APDVungleAdapter', '3.0.2.1'
+    pod 'BidMachineVungleAdapter', '~> 2.0.0.1'
+    pod 'APDYandexAdapter', '3.0.2.1'
+
 
   target 'QuickMoneyTests' do
     inherit! :complete

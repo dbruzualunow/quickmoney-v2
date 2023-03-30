@@ -100,8 +100,8 @@ android {
         applicationId "app.redpyv.quick"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 59
+        versionName "0.4.9"
         multiDexEnabled true
     }
 
@@ -122,10 +122,12 @@ android {
         }
 
         release {
-            storeFile file('quick-release.keystore')
-            storePassword 'Kofimoon.13'
-            keyAlias 'quick-release'
-            keyPassword 'Kofimoon.13'
+             if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                 storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                 storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                 keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                 keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+             }
         }
     }
     buildTypes {

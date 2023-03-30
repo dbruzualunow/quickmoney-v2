@@ -11,6 +11,7 @@ const adTypes =
   AppodealAdType.INTERSTITIAL |
   AppodealAdType.REWARDED_VIDEO;
 
+
 Appodeal.initialize(
   "75e69c2d9b627dada9ad61fa882dbbf745bd2f2f88a65e17",
   adTypes
@@ -26,7 +27,7 @@ export const AdsContext = createContext();
 function AdsContextProvider({ children }) {
   const showRewardedAd = () => {
     try {
-      Appodeal.show(adTypes);
+      Appodeal.show(adTypes, 'default');
     } catch (error) {
       Alert.alert("Error", error);
     }
