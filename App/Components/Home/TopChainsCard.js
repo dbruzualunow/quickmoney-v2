@@ -87,8 +87,8 @@ const TopChainsCard = ({ topChains }) => {
                   style={styles.gameImage}
                   source={
                     I18n.locale === "es"
-                      ? require("../../Assets/Images/simulateChain2.png")
-                      : require("../../Assets/Images/chainSimulator.png")
+                      ? require("../../Assets/Images/chain_simulator.png")
+                      : require("../../Assets/Images/chain_simulator.png")
                   }
                 />
               </View>
