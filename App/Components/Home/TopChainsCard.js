@@ -85,11 +85,7 @@ const TopChainsCard = ({ topChains }) => {
               <View style={styles.imageContainer}>
                 <Image
                   style={styles.gameImage}
-                  source={
-                    I18n.locale === "es"
-                      ? require("../../Assets/Images/chain_simulator.png")
-                      : require("../../Assets/Images/chain_simulator.png")
-                  }
+                  source={require("../../Assets/Images/chain_simulator.png")}
                 />
               </View>
             </View>
