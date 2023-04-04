@@ -241,7 +241,7 @@ const HomeScreen = (props) => {
                     ))}
                 </View>
               )}
-              <Pressable onPress={showRewardedAd}>
+              <Pressable onPress={() => navigation.navigate('PlayGame')}>
                 <View style={styles.TestYourLuck}>
                   <Text
                     style={{

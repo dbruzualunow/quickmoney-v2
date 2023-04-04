@@ -96,6 +96,14 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     namespace "app.redpyv.quick"
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
     defaultConfig {
         applicationId "app.redpyv.quick"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -158,11 +166,6 @@ android {
             }
 
         }
-    }
-    
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
