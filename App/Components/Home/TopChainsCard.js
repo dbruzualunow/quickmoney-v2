@@ -85,7 +85,7 @@ const TopChainsCard = ({ topChains }) => {
               <View style={styles.imageContainer}>
                 <Image
                   style={styles.gameImage}
-                  source={require("../../Assets/Images/chain_simulator.png")}
+                  source={require("../../Assets/Images/chain_simulator.jpeg")}
                 />
               </View>
             </View>
