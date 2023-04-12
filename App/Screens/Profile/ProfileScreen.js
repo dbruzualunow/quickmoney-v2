@@ -223,7 +223,7 @@ const ProfileScreen = () => {
                 source={require("../../Assets/Icons/ayuda.png")}
               />
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.profileRow}
               onPress={() => {
                 navigation.navigate("PaymentHistorics");
@@ -235,7 +235,7 @@ const ProfileScreen = () => {
                 resizeMode="contain"
                 source={require("../../Assets/Icons/coin.png")}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             {/* <TouchableOpacity
                             style={[styles.profileRow, { borderBottomWidth: 0 }]}
                             onPress={() => { navigation.navigate('Home') }}

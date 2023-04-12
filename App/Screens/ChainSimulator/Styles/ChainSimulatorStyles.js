@@ -49,6 +49,7 @@ export default StyleSheet.create({
   },
   topRows: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-around',
     width: '100%',
     marginBottom: 20,

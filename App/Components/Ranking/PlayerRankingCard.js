@@ -18,7 +18,7 @@ const PlayerRankingCard = ({ ranking, name, timeAgo, totalPrizes, acumulated, av
             </View>
             <View style={styles.innerContainer}>
                 <View style={styles.avatarRow}>
-                    <UserAvatar size={30} url={avatar?.url} title={ username_?.charAt(0) } />
+                    <UserAvatar size={30} url={avatar?.url || ''} title={ username_?.charAt(0) } />
                     <Text style={styles.username}>
                         {translate('general.user')} {username_}
                     </Text>
