@@ -28,9 +28,11 @@ import {
   moderateScale,
   verticalScale,
 } from "../../../Metrics";
+import { AppodealInterstitialEvent, AppodealRewardedEvent } from "react-native-appodeal";
+import ApiService from "../../Services/ApiService";
 
 const ScratchCardScreen = ({ route, navigation }) => {
-  const { showRewardedAd } = useContext(AdsContext);
+  const { showRewardedAd, state: adState } = useContext(AdsContext);
 
   const TYPES = ["corazones", "treboles", "diamantes", "picas"];
   const [result, setResult] = useState(false);
@@ -91,6 +93,18 @@ const ScratchCardScreen = ({ route, navigation }) => {
       setIsLoading(false);
     }, 200);
   }, []);
+
+  useEffect(() => {
+      if (adState === AppodealInterstitialEvent.CLOSED) {
+        try {
+          ApiService.postAdVisualization()
+        } catch (error) {
+          
+        }
+      }
+  
+  }, [adState])
+  
 
   const handleScratch = (scratchPercentage) => {
     if (scratchPercentage < 54) {

@@ -93,6 +93,7 @@ class ApiService {
   }
 
   async postAdVisualization() {
+    console.log("🚀 ~ file: ApiService.js:96 ~ ApiService ~ postAdVisualization ~ postAdVisualization:")
     const response = await this.api.post("ads-visualizations", {
       hashID: "" + new Date().getTime(),
     });
@@ -129,6 +130,7 @@ class ApiService {
   }
 
   async playGame(bet) {
+    console.log("🚀 ~ file: ApiService.js:133 ~ ApiService ~ playGame ~ playGame:")
     const response = await this.api.post("plays", { bet });
     return response;
   }
@@ -174,6 +176,7 @@ class ApiService {
   }
 
   async playGame(bet) {
+    console.log("🚀 ~ file: ApiService.js:133 ~ ApiService ~ playGame ~ playGame:")
     const response = await this.api.post("plays", { bet });
     return response;
   }
