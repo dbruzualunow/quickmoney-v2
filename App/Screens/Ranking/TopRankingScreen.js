@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, ScrollView, View } from "react-native";
+import { ActivityIndicator, Alert, FlatList, ScrollView, View } from "react-native";
 import Header from "../../Components/CustomUI/Header";
 import PlayerRankingCard from "../../Components/Ranking/PlayerRankingCard";
 import translate from "../../I18n";
@@ -7,7 +7,8 @@ import ApiService from "../../Services/ApiService";
 
 const TopRankingScreeen = ({ route }) => {
   const { type } = route.params;
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingMore, setIsLoadingMore] = useState(false)
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
@@ -21,8 +22,7 @@ const TopRankingScreeen = ({ route }) => {
       if (type === "topChains") {
         response = await ApiService.getAllTopChains(page);
       }
-      setIsLoading(false);
-      setData(data?.concat(response?.data?.data || []));
+      setData((data) => data?.concat(response?.data?.data || []));
       setLastPage(response?.data?.meta?.pagination?.pageCount);
     } catch (error) {
       console.log(error);
@@ -30,8 +30,30 @@ const TopRankingScreeen = ({ route }) => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    getData(page);
+      (async() => {
+        try {
+          await getData(page);
+        } catch (e) {
+          Alert.alert('Error')
+        }finally{
+          setIsLoading(false)
+        }
+      })()
+  }, []);
+
+  useEffect(() => {
+    if (page > 1) {
+      (async() => {
+        try {
+          setIsLoadingMore(true);
+          await getData(page);
+        } catch (e) {
+          Alert.alert('Error')
+        }finally{
+          setIsLoadingMore(false)
+        }
+      })()
+    }
   }, [page]);
 
   return (
@@ -61,14 +83,17 @@ const TopRankingScreeen = ({ route }) => {
         contentContainerStyle={{ paddingBottom: 100 }}
         data={data}
         renderItem={({ item, index }) => (
-          <PlayerRankingCard key={index} ranking={index + 1} {...item} />
+          <PlayerRankingCard ranking={index + 1} {...item} />
         )}
         onEndReached={() => {
           if (page < lastPage) {
             setPage(page + 1);
           }
         }}
-        onEndReachedThreshold={0.4}
+        onEndReachedThreshold={0.01}
+        ListFooterComponent={loadingMore && 
+            <ActivityIndicator size="large" color="#517664" />
+          }
         keyExtractor={(item) => item.id}
       />
 
