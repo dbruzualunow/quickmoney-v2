@@ -24,7 +24,7 @@ const toast = (message) => {
   );
 };
 
-const registerListeners = (setState) => {
+const registerListeners = (setStateAd) => {
   // SDK callbacks
   Appodeal.addEventListener(AppodealSdkEvent.INITIALIZED, () => {
     console.log("Appodeal SDK initialized");
@@ -37,6 +37,7 @@ const registerListeners = (setState) => {
     console.log("Interstitial loaded. Precache: ", event.isPrecache)
   );
   Appodeal.addEventListener(AppodealInterstitialEvent.SHOWN, () => {
+    setStateAd(AppodealInterstitialEvent.SHOWN)
     console.log("Interstitial shown");
     levelsPlayed += 1;
     Appodeal.setCustomStateValue(levelsPlayed, "levels_played");
@@ -49,15 +50,19 @@ const registerListeners = (setState) => {
     console.log("Interstitial clicked")
   );
   Appodeal.addEventListener(AppodealInterstitialEvent.CLOSED, () => {
-    setState(AppodealInterstitialEvent.CLOSED)
+    setStateAd(AppodealInterstitialEvent.CLOSED)
     console.log("Interstitial closed")
   }
   );
-  Appodeal.addEventListener(AppodealInterstitialEvent.FAILED_TO_LOAD, (e) =>
+  Appodeal.addEventListener(AppodealInterstitialEvent.FAILED_TO_LOAD, (e) => {
+    setStateAd(AppodealInterstitialEvent.FAILED_TO_LOAD)
     console.log("Interstitial failed to load", e)
+  }
   );
-  Appodeal.addEventListener(AppodealInterstitialEvent.FAILED_TO_SHOW, () =>
+  Appodeal.addEventListener(AppodealInterstitialEvent.FAILED_TO_SHOW, () => {
+    setStateAd(AppodealInterstitialEvent.FAILED_TO_SHOW)
     console.log("Interstitial failed to show")
+  }
   );
   // Banner callbacks
   Appodeal.addEventListener(AppodealBannerEvent.LOADED, (event) =>
@@ -108,8 +113,8 @@ const registerListeners = (setState) => {
   );
 };
 
-const initializeAds = (setState) => {
-  registerListeners(setState);
+const initializeAds = (setStateAd) => {
+  registerListeners(setStateAd);
   Appodeal.setTabletBanners(false);
 
   Appodeal.setLogLevel(AppodealLogLevel.DEBUG);
@@ -125,7 +130,7 @@ const initializeAds = (setState) => {
 export const AdsContext = createContext();
 
 function AdsContextProvider({ children }) {
-  const [state, setState] = useState('')
+  const [stateAd, setStateAd] = useState('')
   
   const showRewardedAd = () => {
     try {
@@ -136,10 +141,10 @@ function AdsContextProvider({ children }) {
   };
 
   useEffect(() => {
-    initializeAds(setState);
+    initializeAds(setStateAd);
   }, []);
   return (
-    <AdsContext.Provider value={{ showRewardedAd, state }}>
+    <AdsContext.Provider value={{ showRewardedAd, stateAd }}>
       {children}
     </AdsContext.Provider>
   );

@@ -33,6 +33,8 @@ import {
   moderateScale,
   verticalScale,
 } from "../../../Metrics";
+import { AdsContext } from "../../Context/AdsContextProvider";
+import { AppodealInterstitialEvent } from "react-native-appodeal";
 
 // const adUnitId = Config.ADMOB_ID;
 
@@ -78,6 +80,8 @@ const GameScreen = ({ navigation }) => {
   const [tragaperraIndex, setTragaperraIndex] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
+  const [dataToScratchScreen, setDataToScratchScreen] = useState({});
+  const {showRewardedAd, stateAd} = useContext(AdsContext);
 
   useEffect(() => {
     ApiService.getGameConfig()
@@ -276,13 +280,22 @@ const GameScreen = ({ navigation }) => {
 
       setYourBet(bet);
       const response = await ApiService.playGame(bet);
-      navigation.navigate("ScratchCardScreen", {
+      setDataToScratchScreen({
         winningNumbers: response.data,
         tragaperraIndex,
         dadoIndex,
         cardIndex,
-      });
-      setIsLoading(true);
+      })
+      setIsLoading(true)
+      showRewardedAd()
+
+      // navigation.navigate("ScratchCardScreen", {
+      // winningNumbers: response.data,
+      // tragaperraIndex,
+      // dadoIndex,
+      // cardIndex,
+      // });
+      // setIsLoading(true);
     } catch (error) {
       console.log("error", error.response.data);
       Alert.alert(
@@ -292,6 +305,25 @@ const GameScreen = ({ navigation }) => {
     }
   };
 
+  useEffect(() => {
+    if (
+        [AppodealInterstitialEvent.FAILED_TO_SHOW,
+         AppodealInterstitialEvent.FAILED_TO_LOAD,
+         AppodealInterstitialEvent.SHOWN
+        ].includes(stateAd)
+      ){
+          setIsLoading(false)
+          navigation.navigate("ScratchCardScreen", dataToScratchScreen);
+          if (stateAd === AppodealInterstitialEvent.SHOWN) {
+            try {
+              ApiService.postAdVisualization()
+            } catch (error) {
+            }
+          }
+    }
+  
+  }, [stateAd])
+  
   return (
     <SafeAreaView>
       <ImageBackground

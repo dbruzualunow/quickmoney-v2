@@ -32,7 +32,6 @@ import { AppodealInterstitialEvent, AppodealRewardedEvent } from "react-native-a
 import ApiService from "../../Services/ApiService";
 
 const ScratchCardScreen = ({ route, navigation }) => {
-  const { showRewardedAd, state: adState } = useContext(AdsContext);
 
   const TYPES = ["corazones", "treboles", "diamantes", "picas"];
   const [result, setResult] = useState(false);
@@ -70,7 +69,6 @@ const ScratchCardScreen = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    showRewardedAd();
     setTimeout(() => {
       let WC = [];
       let WD = [];
@@ -94,16 +92,6 @@ const ScratchCardScreen = ({ route, navigation }) => {
     }, 200);
   }, []);
 
-  useEffect(() => {
-      if (adState === AppodealInterstitialEvent.CLOSED) {
-        try {
-          ApiService.postAdVisualization()
-        } catch (error) {
-          
-        }
-      }
-  
-  }, [adState])
   
 
   const handleScratch = (scratchPercentage) => {
