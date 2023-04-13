@@ -262,7 +262,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
                 >
                   <View style={{ padding: 8 }}>
                     <View style={{ marginBottom: 2, ...styles.d_flex }}>
-                      {yourCards.map((_, index) => (
+                      {yourCards?.map((_, index) => (
                         <View
                           key={index}
                           style={{
