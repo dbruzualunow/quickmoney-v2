@@ -80,7 +80,7 @@ const GameScreen = ({ navigation }) => {
   const [tragaperraIndex, setTragaperraIndex] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [dataToScratchScreen, setDataToScratchScreen] = useState({});
+  const [dataToScratchScreen, setDataToScratchScreen] = useState(null);
   const {showRewardedAd, stateAd} = useContext(AdsContext);
 
   useEffect(() => {
@@ -310,10 +310,11 @@ const GameScreen = ({ navigation }) => {
         [AppodealInterstitialEvent.FAILED_TO_SHOW,
          AppodealInterstitialEvent.FAILED_TO_LOAD,
          AppodealInterstitialEvent.SHOWN
-        ].includes(stateAd)
+        ].includes(stateAd) && dataToScratchScreen
       ){
           setIsLoading(false)
           navigation.navigate("ScratchCardScreen", dataToScratchScreen);
+          setDataToScratchScreen(null)
           if (stateAd === AppodealInterstitialEvent.SHOWN) {
             try {
               ApiService.postAdVisualization()

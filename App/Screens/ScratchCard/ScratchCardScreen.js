@@ -126,7 +126,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
                 >
                   <View style={styles.marcostyles}>
                     <View style={styles.d_flex}>
-                      {winingCards.map((_, index) => (
+                      {winingCards?.map((_, index) => (
                         <View
                           key={index}
                           style={{
@@ -153,7 +153,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
                       ))}
                     </View>
                     <View style={styles.d_flex}>
-                      {winningDices.map((_, index) => (
+                      {winningDices?.map((_, index) => (
                         <View
                           key={index}
                           style={{
@@ -200,7 +200,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
                             : 76,
                       }}
                     >
-                      {winningTragaPerras.map((v, index) => (
+                      {winningTragaPerras?.map((v, index) => (
                         <View
                           key={index}
                           style={{
@@ -296,7 +296,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
                         ...styles.d_flex,
                       }}
                     >
-                      {yourDices.map((_, index) => (
+                      {yourDices?.map((_, index) => (
                         <View
                           key={index}
                           style={{
@@ -351,7 +351,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
                             : 76,
                       }}
                     >
-                      {yourTragaPerras.map((v, index) => {
+                      {yourTragaPerras?.map((v, index) => {
                         return (
                           <View
                             key={index}
@@ -452,7 +452,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
                       }}
                       pointerEvents="none"
                     >
-                      {animatedListCurrency.map((v, index) => (
+                      {animatedListCurrency?.map((v, index) => (
                         <AnimatedTransformCurrency key={index}>
                           <AnimatedCurrency />
                         </AnimatedTransformCurrency>
