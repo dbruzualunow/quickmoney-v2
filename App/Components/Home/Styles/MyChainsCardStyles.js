@@ -15,8 +15,9 @@ export default StyleSheet.create({
 
   },
     gameImage: {
-    width: 125,
-    height: 125,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
   title: {
     fontWeight: 'bold',
