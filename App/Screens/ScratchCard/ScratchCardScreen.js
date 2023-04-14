@@ -63,6 +63,8 @@ const ScratchCardScreen = ({ route, navigation }) => {
   const [showButton, setShowButton] = useState(false);
   const {showRewardedAd, stateAd, setStateAd} = useContext(AdsContext);
   const [requestedReward, setRequestedReward] = useState(false)
+  console.log("🚀 ~ file: ScratchCardScreen.js:66 ~ ScratchCardScreen ~ requestedReward:", requestedReward)
+  console.log("🚀 ~ file: ScratchCardScreen.js:65 ~ ScratchCardScreen ~ setStateAd:", stateAd)
 
   const imagesMaquinas = {
     2: require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_2.png`),

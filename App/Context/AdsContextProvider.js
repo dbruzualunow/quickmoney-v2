@@ -14,7 +14,7 @@ let levelsPlayed = 0;
 
 import { Alert, ToastAndroid } from "react-native";
 
-const adTypes = AppodealAdType.INTERSTITIAL | AppodealAdType.REWARDED_VIDEO;
+const adTypes = AppodealAdType.INTERSTITIAL;
 
 const toast = (message) => {
   ToastAndroid.showWithGravity(
@@ -134,7 +134,11 @@ function AdsContextProvider({ children }) {
   
   const showRewardedAd = () => {
     try {
-      Appodeal.show(adTypes, "default");
+      if (Appodeal.canShow(adTypes)) {
+        Appodeal.show(adTypes, "default");
+      }else{
+        setStateAd(AppodealInterstitialEvent.FAILED_TO_LOAD)
+      }
     } catch (error) {
       Alert.alert("Error", error);
     }
