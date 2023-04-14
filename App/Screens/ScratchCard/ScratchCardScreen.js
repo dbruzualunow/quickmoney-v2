@@ -11,7 +11,7 @@ import {
   Modal,
   ScrollView,
 } from "react-native";
-import { AdsContext } from "../../Context/AdsContextProvider";
+import AdsContextProvider, { AdsContext } from "../../Context/AdsContextProvider";
 import { ScratchCard } from "rn-scratch-card";
 import LinearGradient from "react-native-linear-gradient";
 import React, { useState, useContext } from "react";
@@ -61,6 +61,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showButton, setShowButton] = useState(false);
+  const {showRewardedAd, stateAd} = useContext(AdsContext);
 
   const imagesMaquinas = {
     2: require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_2.png`),
@@ -69,6 +70,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
   };
 
   useEffect(() => {
+    showRewardedAd()
     setTimeout(() => {
       let WC = [];
       let WD = [];
@@ -88,10 +90,29 @@ const ScratchCardScreen = ({ route, navigation }) => {
       setYourCards(cardIndex);
       setYourDices(dadoIndex);
       setYourTragaPerras(tragaperraIndex);
-      setIsLoading(false);
     }, 200);
   }, []);
 
+  useEffect(() => {
+    if (
+        [AppodealInterstitialEvent.FAILED_TO_SHOW,
+         AppodealInterstitialEvent.FAILED_TO_LOAD,
+         AppodealInterstitialEvent.SHOWN
+        ].includes(stateAd)
+      ){
+        setTimeout(() => {
+          if (stateAd === AppodealInterstitialEvent.SHOWN) {
+            try {
+              ApiService.postAdVisualization()
+            } catch (error) {
+            }
+          }
+          setIsLoading(false)
+        }, 1000);
+
+    }
+  
+  }, [stateAd])
   
 
   const handleScratch = (scratchPercentage) => {
@@ -110,7 +131,16 @@ const ScratchCardScreen = ({ route, navigation }) => {
         style={styles.container}
       >
         {isLoading ? (
-          <></>
+          <ActivityIndicator
+            size="large"
+            color="#fff"
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "55%",
+              transform: [{ translateX: -50 }, { translateY: -50 }],
+            }}
+          />
         ) : (
           <>
             <View style={styles.gameContainer}>
