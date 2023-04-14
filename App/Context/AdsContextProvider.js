@@ -130,7 +130,7 @@ const initializeAds = (setStateAd) => {
 export const AdsContext = createContext();
 
 function AdsContextProvider({ children }) {
-  const [stateAd, setStateAd] = useState('')
+  const [stateAd, setStateAd] = useState(null)
   
   const showRewardedAd = () => {
     try {
@@ -144,7 +144,7 @@ function AdsContextProvider({ children }) {
     initializeAds(setStateAd);
   }, []);
   return (
-    <AdsContext.Provider value={{ showRewardedAd, stateAd }}>
+    <AdsContext.Provider value={{ showRewardedAd, stateAd, setStateAd }}>
       {children}
     </AdsContext.Provider>
   );

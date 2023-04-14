@@ -61,16 +61,16 @@ const ScratchCardScreen = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showButton, setShowButton] = useState(false);
-  const {showRewardedAd, stateAd} = useContext(AdsContext);
+  const {showRewardedAd, stateAd, setStateAd} = useContext(AdsContext);
+  const [requestedReward, setRequestedReward] = useState(false)
 
   const imagesMaquinas = {
     2: require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_2.png`),
     3: require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_3.png`),
     4: require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_4.png`),
   };
-
+  
   useEffect(() => {
-    showRewardedAd()
     setTimeout(() => {
       let WC = [];
       let WD = [];
@@ -91,27 +91,28 @@ const ScratchCardScreen = ({ route, navigation }) => {
       setYourDices(dadoIndex);
       setYourTragaPerras(tragaperraIndex);
     }, 200);
+    setTimeout(() => {
+      setRequestedReward(true)
+      showRewardedAd()
+    }, 750);
   }, []);
 
   useEffect(() => {
     if (
         [AppodealInterstitialEvent.FAILED_TO_SHOW,
          AppodealInterstitialEvent.FAILED_TO_LOAD,
-         AppodealInterstitialEvent.SHOWN
-        ].includes(stateAd)
-      ){
-        setTimeout(() => {
-          if (stateAd === AppodealInterstitialEvent.SHOWN) {
-            try {
-              ApiService.postAdVisualization()
-            } catch (error) {
-            }
-          }
+         AppodealInterstitialEvent.CLOSED,
+        ].includes(stateAd) && requestedReward
+        ){
+          setStateAd(null)
           setIsLoading(false)
-        }, 1000);
-
+        }
+    else if(stateAd === AppodealInterstitialEvent.SHOWN && requestedReward) {
+      try {
+        ApiService.postAdVisualization()
+      } catch (error) {
+      }
     }
-  
   }, [stateAd])
   
 
