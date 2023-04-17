@@ -59,7 +59,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
   const [yourTragaPerras, setYourTragaPerras] = useState([]);
   const [numNumbersAvailable, setNumNumbersAvailable] = useState(4);
   const [modalVisible, setModalVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [showButton, setShowButton] = useState(false);
   const {showRewardedAd, stateAd, setStateAd} = useContext(AdsContext);
   const [requestedReward, setRequestedReward] = useState(false)
@@ -95,8 +95,8 @@ const ScratchCardScreen = ({ route, navigation }) => {
       setYourTragaPerras(tragaperraIndex);
     }, 200);
     setTimeout(() => {
-      // setRequestedReward(true)
-      // showRewardedAd()
+      setRequestedReward(true)
+      showRewardedAd()
     }, 750);
   }, []);
 
@@ -147,11 +147,12 @@ const ScratchCardScreen = ({ route, navigation }) => {
           />
         ) : (
           <>
-          <ScrollView showsVerticalScrollIndicator={false} scrollEnabled={scrollEnabled}>
+          <ScrollView showsVerticalScrollIndicator={true} scrollEnabled={scrollEnabled}>
             <View style={styles.gameContainer} onStartShouldSetResponder={(e) => {
-              if (e.target._internalFiberInstanceHandleDEV._debugOwner.alternate.elementType.toString().indexOf("ScratchCard") !== -1) {
+              console.log(e?.target?.viewConfig?.directEventTypes?.topOnScratch?.registrationName?.toLowerCase())
+              if (e?.target?.viewConfig?.directEventTypes?.topOnScratch?.registrationName?.toLowerCase() === 'onscratch') {
                 setScrollEnabled(false)
-              }else{
+              } else {
                 setScrollEnabled(true)
               }
             }}>
@@ -276,7 +277,6 @@ const ScratchCardScreen = ({ route, navigation }) => {
                   </View>
                   {!result && (
                     <ScratchCard
-                      id="qqqqqqqqqqqqqq"
                       source={require("./../../Assets/Images/rasca-gana/Rasca.png")}
                       brushWidth={40}
                       onScratch={handleScratch}
