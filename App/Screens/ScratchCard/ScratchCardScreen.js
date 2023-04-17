@@ -59,10 +59,11 @@ const ScratchCardScreen = ({ route, navigation }) => {
   const [yourTragaPerras, setYourTragaPerras] = useState([]);
   const [numNumbersAvailable, setNumNumbersAvailable] = useState(4);
   const [modalVisible, setModalVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const {showRewardedAd, stateAd, setStateAd} = useContext(AdsContext);
   const [requestedReward, setRequestedReward] = useState(false)
+  const [scrollEnabled, setScrollEnabled] = useState(true);
   console.log("🚀 ~ file: ScratchCardScreen.js:66 ~ ScratchCardScreen ~ requestedReward:", requestedReward)
   console.log("🚀 ~ file: ScratchCardScreen.js:65 ~ ScratchCardScreen ~ setStateAd:", stateAd)
 
@@ -94,8 +95,8 @@ const ScratchCardScreen = ({ route, navigation }) => {
       setYourTragaPerras(tragaperraIndex);
     }, 200);
     setTimeout(() => {
-      setRequestedReward(true)
-      showRewardedAd()
+      // setRequestedReward(true)
+      // showRewardedAd()
     }, 750);
   }, []);
 
@@ -146,7 +147,14 @@ const ScratchCardScreen = ({ route, navigation }) => {
           />
         ) : (
           <>
-            <View style={styles.gameContainer}>
+          <ScrollView showsVerticalScrollIndicator={false} scrollEnabled={scrollEnabled}>
+            <View style={styles.gameContainer} onStartShouldSetResponder={(e) => {
+              if (e.target._internalFiberInstanceHandleDEV._debugOwner.alternate.elementType.toString().indexOf("ScratchCard") !== -1) {
+                setScrollEnabled(false)
+              }else{
+                setScrollEnabled(true)
+              }
+            }}>
               <View style={{ marginTop: verticalScale(50) }}>
                 <Text style={styles.titleGame}>
                   {translate("scratchCard.titleGame")}
@@ -268,10 +276,12 @@ const ScratchCardScreen = ({ route, navigation }) => {
                   </View>
                   {!result && (
                     <ScratchCard
+                      id="qqqqqqqqqqqqqq"
                       source={require("./../../Assets/Images/rasca-gana/Rasca.png")}
                       brushWidth={40}
                       onScratch={handleScratch}
                       style={styles.scratch_card}
+                      onStartShouldSetResponder={(e) => setScrollEnabled(false)}
                     />
                   )}
                 </ImageBackground>
@@ -426,35 +436,6 @@ const ScratchCardScreen = ({ route, navigation }) => {
               </View>
             </View>
 
-            {showButton ? (
-              <View style={styles.buttonContainer}>
-                <Pressable onPress={() => navigation.navigate("Home")}>
-                  <LinearGradient
-                    colors={[
-                      "rgba(116, 53, 0, 1)",
-                      "rgba(255, 246, 193, 1)",
-                      "rgba(243, 231, 149, 1)",
-                      "rgba(203, 105, 4, 1)",
-                      "rgba(235, 134, 6, 1)",
-                      "rgba(184, 93, 0, 1)",
-                      "rgba(142, 63, 6, 1)",
-                    ]}
-                    style={styles.buttonSuccess}
-                  >
-                    <Text
-                      style={{
-                        fontSize: moderateScale(15),
-                        color: "white",
-                        fontWeight: "bold",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {translate("general.accept")}
-                    </Text>
-                  </LinearGradient>
-                </Pressable>
-              </View>
-            ) : null}
 
             <View style={styles.centeredView}>
               <Modal
@@ -568,6 +549,36 @@ const ScratchCardScreen = ({ route, navigation }) => {
                 </View>
               </Modal>
             </View>
+          </ScrollView>
+          {showButton ? (
+              <View style={styles.buttonContainer}>
+                <Pressable onPress={() => navigation.navigate("Home")}>
+                  <LinearGradient
+                    colors={[
+                      "rgba(116, 53, 0, 1)",
+                      "rgba(255, 246, 193, 1)",
+                      "rgba(243, 231, 149, 1)",
+                      "rgba(203, 105, 4, 1)",
+                      "rgba(235, 134, 6, 1)",
+                      "rgba(184, 93, 0, 1)",
+                      "rgba(142, 63, 6, 1)",
+                    ]}
+                    style={styles.buttonSuccess}
+                  >
+                    <Text
+                      style={{
+                        fontSize: moderateScale(15),
+                        color: "white",
+                        fontWeight: "bold",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {translate("general.accept")}
+                    </Text>
+                  </LinearGradient>
+                </Pressable>
+              </View>
+            ) : null}
           </>
         )}
       </ImageBackground>
@@ -585,6 +596,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: verticalScale(15),
+    minHeight: verticalScale(770),
   },
   marco: {
     height: 290,

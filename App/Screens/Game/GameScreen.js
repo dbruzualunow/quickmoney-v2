@@ -325,68 +325,214 @@ const GameScreen = ({ navigation }) => {
   // }, [stateAd])
   
   return (
-    <SafeAreaView>
-      <ImageBackground
-        source={require("../../Assets/Images/BackgroundMain.jpg")}
-        resizeMode="cover"
-        style={styles.container}
-      >
-        {isLoading ? (
-          <ActivityIndicator
-            size="large"
-            color="#fff"
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "55%",
-              transform: [{ translateX: -50 }, { translateY: -50 }],
-            }}
-          />
-        ) : (
-          <>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <StatusBar />
-              <View style={styles.container}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-around",
-                    marginTop:
-                      Platform.OS === "android"
-                        ? verticalScale(45)
-                        : verticalScale(10),
-                  }}
-                >
-                  <Pressable onPress={() => navigation.goBack()}>
+    <>
+      {
+        Platform.OS === "ios" && parseInt(Platform.Version) >= 11 ? 
+        (<SafeAreaView>
+          <ImageBackground
+            source={require("../../Assets/Images/BackgroundMain.jpg")}
+            resizeMode="cover"
+            style={styles.container}
+          >
+            {isLoading ? (
+              <ActivityIndicator
+                size="large"
+                color="#fff"
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "55%",
+                  transform: [{ translateX: -50 }, { translateY: -50 }],
+                }}
+              />
+            ) : (
+              <>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  <StatusBar />
+                  <View style={styles.container}>
                     <View
                       style={{
                         flexDirection: "row",
                         alignItems: "center",
-                        right: 30,
+                        justifyContent: "space-around",
+                        marginTop:
+                          Platform.OS === "android"
+                            ? verticalScale(45)
+                            : verticalScale(10),
                       }}
                     >
-                      <Icon
-                        name="chevron-left"
-                        size={moderateScale(23)}
-                        color={"white"}
-                      />
-                      <Text
-                        style={{
-                          fontFamily: "SFProDisplay-Bold",
-                          fontSize: moderateScale(15),
-                          fontWeight: "bold",
-                          color: "white",
-                        }}
-                        allowFontScaling={false}
-                        adjustsFontSizeToFit={true}
-                      >
-                        {translate("general.goBack")}
-                      </Text>
-                    </View>
-                  </Pressable>
+                      <Pressable onPress={() => navigation.goBack()}>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            right: 30,
+                          }}
+                        >
+                          <Icon
+                            name="chevron-left"
+                            size={moderateScale(23)}
+                            color={"white"}
+                          />
+                          <Text
+                            style={{
+                              fontFamily: "SFProDisplay-Bold",
+                              fontSize: moderateScale(15),
+                              fontWeight: "bold",
+                              color: "white",
+                            }}
+                            allowFontScaling={false}
+                            adjustsFontSizeToFit={true}
+                          >
+                            {translate("general.goBack")}
+                          </Text>
+                        </View>
+                      </Pressable>
 
-                  <Pressable onPress={() => handleRandomize()}>
+                      <Pressable onPress={() => handleRandomize()}>
+                        <LinearGradient
+                          colors={[
+                            "rgba(116, 53, 0, 1)",
+                            "rgba(255, 246, 193, 1)",
+                            "rgba(243, 231, 149, 1)",
+                            "rgba(203, 105, 4, 1)",
+                            "rgba(235, 134, 6, 1)",
+                            "rgba(184, 93, 0, 1)",
+                            "rgba(142, 63, 6, 1)",
+                          ]}
+                          style={styles.buttonAlazar}
+                        >
+                          <Text
+                            style={{
+                              fontSize: moderateScale(13),
+                              color: "white",
+                              fontWeight: "bold",
+                            }}
+                            allowFontScaling={false}
+                            adjustsFontSizeToFit={true}
+                          >
+                            {translate("game.random")}
+                          </Text>
+                        </LinearGradient>
+                      </Pressable>
+                    </View>
+
+                    <View style={styles.gamesContainer}>
+                      <View style={styles.cardGames}>
+                        <Text style={styles.titleGame}>
+                          {translate("game.chooseYourCards")}
+                        </Text>
+                        <View style={[styles.gameContainer]}>
+                          {Array.from({ length: numCardsAvailable }).map(
+                            (_, index) => (
+                              <Pressable
+                                key={index}
+                                onPress={() =>
+                                  handleCardSelector(TYPES[index], index)
+                                }
+                              >
+                                <Card card={cardIndex[index]} type={TYPES[index]} />
+                              </Pressable>
+                            )
+                          )}
+                        </View>
+                      </View>
+
+                      <View
+                        style={{
+                          ...styles.cardGames,
+                          marginTop: verticalScale(10),
+                        }}
+                      >
+                        <Text style={styles.titleGame}>
+                          {translate("game.rollYourDice")}
+                        </Text>
+                        <View style={[styles.gameContainer]}>
+                          {Array.from({ length: numDicesAvailable }).map(
+                            (_, index) => (
+                              <Pressable
+                                key={index}
+                                onPress={() => handleCrapsSelector(index)}
+                              >
+                                <Craps value={dadoIndex[index]} />
+                              </Pressable>
+                            )
+                          )}
+                        </View>
+                      </View>
+
+                      <View
+                        style={{
+                          ...styles.cardGames,
+                          marginTop: verticalScale(10),
+                        }}
+                      >
+                        <Text style={styles.titleGame}>
+                          {translate("game.getYourSymbols")}
+                        </Text>
+                        <Image
+                          source={
+                            imagesMaquinas[numNumbersAvailable] ||
+                            require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_4.png`)
+                          }
+                          resizeMode="cover"
+                          style={styles.tragaperrasImageContain}
+                        />
+                        <View style={styles.tragaperraImageResult}>
+                          {Array.from({ length: numNumbersAvailable }).map(
+                            (_, index) => {
+                              return (
+                                <View key={index}>
+                                  <Pressable
+                                    onPress={() => handleTragaPerrasSelector(index)}
+                                  >
+                                    <Tragaperra
+                                      styleValue={{
+                                        height: 65,
+                                        width: 46,
+                                        marginHorizontal: 6.5,
+                                      }}
+                                      value={tragaperraIndex[index]}
+                                    />
+                                  </Pressable>
+                                </View>
+                              );
+                            }
+                          )}
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                  <CardPickerModal
+                    onSelected={(index) =>
+                      handleCardSelected(index, currentMinigameIndex)
+                    }
+                    onBack={() => setIsVisibleCardPickerModal(false)}
+                    tipo={type}
+                    visible={isVisibleCardPickerModal}
+                  />
+
+                  <CrapsModal
+                    onSelected={(index) =>
+                      handleCrapSelected(index, currentMinigameIndex)
+                    }
+                    onBack={() => setIsVisibleCrapsModal(false)}
+                    visible={isVisibleCrapsModal}
+                  />
+
+                  <TragaperraModal
+                    onSelected={(index) =>
+                      handleTragaperraSelected(index, currentMinigameIndex)
+                    }
+                    onBack={() => setIsVisibleTragaperraModal(false)}
+                    visible={isVisibleTragaperraModal}
+                    currentMinigameIndex={currentMinigameIndex}
+                    tragaperraIndex={tragaperraIndex}
+                    numNumbersAvailable={numNumbersAvailable}
+                  />
+                </ScrollView>
+                <View style={styles.endButtonAccept}>
+                  <Pressable onPress={playGame}>
                     <LinearGradient
                       colors={[
                         "rgba(116, 53, 0, 1)",
@@ -397,168 +543,260 @@ const GameScreen = ({ navigation }) => {
                         "rgba(184, 93, 0, 1)",
                         "rgba(142, 63, 6, 1)",
                       ]}
-                      style={styles.buttonAlazar}
+                      style={styles.buttonSuccess}
                     >
                       <Text
                         style={{
-                          fontSize: moderateScale(13),
+                          fontSize: moderateScale(15),
                           color: "white",
                           fontWeight: "bold",
+                          textTransform: "uppercase",
                         }}
-                        allowFontScaling={false}
-                        adjustsFontSizeToFit={true}
                       >
-                        {translate("game.random")}
+                        {translate("general.accept")}
                       </Text>
                     </LinearGradient>
                   </Pressable>
                 </View>
-
-                <View style={styles.gamesContainer}>
-                  <View style={styles.cardGames}>
-                    <Text style={styles.titleGame}>
-                      {translate("game.chooseYourCards")}
-                    </Text>
-                    <View style={[styles.gameContainer]}>
-                      {Array.from({ length: numCardsAvailable }).map(
-                        (_, index) => (
-                          <Pressable
-                            key={index}
-                            onPress={() =>
-                              handleCardSelector(TYPES[index], index)
-                            }
-                          >
-                            <Card card={cardIndex[index]} type={TYPES[index]} />
-                          </Pressable>
-                        )
-                      )}
-                    </View>
-                  </View>
-
+              </>
+            )}
+          </ImageBackground>
+        </SafeAreaView>)
+        :
+        (<ImageBackground
+          source={require("../../Assets/Images/BackgroundMain.jpg")}
+          resizeMode="cover"
+          style={styles.container}
+        >
+          {isLoading ? (
+            <ActivityIndicator
+              size="large"
+              color="#fff"
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "55%",
+                transform: [{ translateX: -50 }, { translateY: -50 }],
+              }}
+            />
+          ) : (
+            <>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                <StatusBar />
+                <View style={styles.container}>
                   <View
                     style={{
-                      ...styles.cardGames,
-                      marginTop: verticalScale(10),
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-around",
+                      marginTop:
+                        Platform.OS === "android"
+                          ? verticalScale(45)
+                          : verticalScale(10),
                     }}
                   >
-                    <Text style={styles.titleGame}>
-                      {translate("game.rollYourDice")}
-                    </Text>
-                    <View style={[styles.gameContainer]}>
-                      {Array.from({ length: numDicesAvailable }).map(
-                        (_, index) => (
-                          <Pressable
-                            key={index}
-                            onPress={() => handleCrapsSelector(index)}
-                          >
-                            <Craps value={dadoIndex[index]} />
-                          </Pressable>
-                        )
-                      )}
-                    </View>
+                    <Pressable onPress={() => navigation.goBack()}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          right: 30,
+                        }}
+                      >
+                        <Icon
+                          name="chevron-left"
+                          size={moderateScale(23)}
+                          color={"white"}
+                        />
+                        <Text
+                          style={{
+                            fontFamily: "SFProDisplay-Bold",
+                            fontSize: moderateScale(15),
+                            fontWeight: "bold",
+                            color: "white",
+                          }}
+                          allowFontScaling={false}
+                          adjustsFontSizeToFit={true}
+                        >
+                          {translate("general.goBack")}
+                        </Text>
+                      </View>
+                    </Pressable>
+
+                    <Pressable onPress={() => handleRandomize()}>
+                      <LinearGradient
+                        colors={[
+                          "rgba(116, 53, 0, 1)",
+                          "rgba(255, 246, 193, 1)",
+                          "rgba(243, 231, 149, 1)",
+                          "rgba(203, 105, 4, 1)",
+                          "rgba(235, 134, 6, 1)",
+                          "rgba(184, 93, 0, 1)",
+                          "rgba(142, 63, 6, 1)",
+                        ]}
+                        style={styles.buttonAlazar}
+                      >
+                        <Text
+                          style={{
+                            fontSize: moderateScale(13),
+                            color: "white",
+                            fontWeight: "bold",
+                          }}
+                          allowFontScaling={false}
+                          adjustsFontSizeToFit={true}
+                        >
+                          {translate("game.random")}
+                        </Text>
+                      </LinearGradient>
+                    </Pressable>
                   </View>
 
-                  <View
-                    style={{
-                      ...styles.cardGames,
-                      marginTop: verticalScale(10),
-                    }}
-                  >
-                    <Text style={styles.titleGame}>
-                      {translate("game.getYourSymbols")}
-                    </Text>
-                    <Image
-                      source={
-                        imagesMaquinas[numNumbersAvailable] ||
-                        require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_4.png`)
-                      }
-                      resizeMode="cover"
-                      style={styles.tragaperrasImageContain}
-                    />
-                    <View style={styles.tragaperraImageResult}>
-                      {Array.from({ length: numNumbersAvailable }).map(
-                        (_, index) => {
-                          return (
-                            <View key={index}>
-                              <Pressable
-                                onPress={() => handleTragaPerrasSelector(index)}
-                              >
-                                <Tragaperra
-                                  styleValue={{
-                                    height: 65,
-                                    width: 46,
-                                    marginHorizontal: 6.5,
-                                  }}
-                                  value={tragaperraIndex[index]}
-                                />
-                              </Pressable>
-                            </View>
-                          );
+                  <View style={styles.gamesContainer}>
+                    <View style={styles.cardGames}>
+                      <Text style={styles.titleGame}>
+                        {translate("game.chooseYourCards")}
+                      </Text>
+                      <View style={[styles.gameContainer]}>
+                        {Array.from({ length: numCardsAvailable }).map(
+                          (_, index) => (
+                            <Pressable
+                              key={index}
+                              onPress={() =>
+                                handleCardSelector(TYPES[index], index)
+                              }
+                            >
+                              <Card card={cardIndex[index]} type={TYPES[index]} />
+                            </Pressable>
+                          )
+                        )}
+                      </View>
+                    </View>
+
+                    <View
+                      style={{
+                        ...styles.cardGames,
+                        marginTop: verticalScale(10),
+                      }}
+                    >
+                      <Text style={styles.titleGame}>
+                        {translate("game.rollYourDice")}
+                      </Text>
+                      <View style={[styles.gameContainer]}>
+                        {Array.from({ length: numDicesAvailable }).map(
+                          (_, index) => (
+                            <Pressable
+                              key={index}
+                              onPress={() => handleCrapsSelector(index)}
+                            >
+                              <Craps value={dadoIndex[index]} />
+                            </Pressable>
+                          )
+                        )}
+                      </View>
+                    </View>
+
+                    <View
+                      style={{
+                        ...styles.cardGames,
+                        marginTop: verticalScale(10),
+                      }}
+                    >
+                      <Text style={styles.titleGame}>
+                        {translate("game.getYourSymbols")}
+                      </Text>
+                      <Image
+                        source={
+                          imagesMaquinas[numNumbersAvailable] ||
+                          require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_4.png`)
                         }
-                      )}
+                        resizeMode="cover"
+                        style={styles.tragaperrasImageContain}
+                      />
+                      <View style={styles.tragaperraImageResult}>
+                        {Array.from({ length: numNumbersAvailable }).map(
+                          (_, index) => {
+                            return (
+                              <View key={index}>
+                                <Pressable
+                                  onPress={() => handleTragaPerrasSelector(index)}
+                                >
+                                  <Tragaperra
+                                    styleValue={{
+                                      height: 65,
+                                      width: 46,
+                                      marginHorizontal: 6.5,
+                                    }}
+                                    value={tragaperraIndex[index]}
+                                  />
+                                </Pressable>
+                              </View>
+                            );
+                          }
+                        )}
+                      </View>
                     </View>
                   </View>
                 </View>
-              </View>
-              <CardPickerModal
-                onSelected={(index) =>
-                  handleCardSelected(index, currentMinigameIndex)
-                }
-                onBack={() => setIsVisibleCardPickerModal(false)}
-                tipo={type}
-                visible={isVisibleCardPickerModal}
-              />
+                <CardPickerModal
+                  onSelected={(index) =>
+                    handleCardSelected(index, currentMinigameIndex)
+                  }
+                  onBack={() => setIsVisibleCardPickerModal(false)}
+                  tipo={type}
+                  visible={isVisibleCardPickerModal}
+                />
 
-              <CrapsModal
-                onSelected={(index) =>
-                  handleCrapSelected(index, currentMinigameIndex)
-                }
-                onBack={() => setIsVisibleCrapsModal(false)}
-                visible={isVisibleCrapsModal}
-              />
+                <CrapsModal
+                  onSelected={(index) =>
+                    handleCrapSelected(index, currentMinigameIndex)
+                  }
+                  onBack={() => setIsVisibleCrapsModal(false)}
+                  visible={isVisibleCrapsModal}
+                />
 
-              <TragaperraModal
-                onSelected={(index) =>
-                  handleTragaperraSelected(index, currentMinigameIndex)
-                }
-                onBack={() => setIsVisibleTragaperraModal(false)}
-                visible={isVisibleTragaperraModal}
-                currentMinigameIndex={currentMinigameIndex}
-                tragaperraIndex={tragaperraIndex}
-                numNumbersAvailable={numNumbersAvailable}
-              />
-            </ScrollView>
-            <View style={styles.endButtonAccept}>
-              <Pressable onPress={playGame}>
-                <LinearGradient
-                  colors={[
-                    "rgba(116, 53, 0, 1)",
-                    "rgba(255, 246, 193, 1)",
-                    "rgba(243, 231, 149, 1)",
-                    "rgba(203, 105, 4, 1)",
-                    "rgba(235, 134, 6, 1)",
-                    "rgba(184, 93, 0, 1)",
-                    "rgba(142, 63, 6, 1)",
-                  ]}
-                  style={styles.buttonSuccess}
-                >
-                  <Text
-                    style={{
-                      fontSize: moderateScale(15),
-                      color: "white",
-                      fontWeight: "bold",
-                      textTransform: "uppercase",
-                    }}
+                <TragaperraModal
+                  onSelected={(index) =>
+                    handleTragaperraSelected(index, currentMinigameIndex)
+                  }
+                  onBack={() => setIsVisibleTragaperraModal(false)}
+                  visible={isVisibleTragaperraModal}
+                  currentMinigameIndex={currentMinigameIndex}
+                  tragaperraIndex={tragaperraIndex}
+                  numNumbersAvailable={numNumbersAvailable}
+                />
+              </ScrollView>
+              <View style={styles.endButtonAccept}>
+                <Pressable onPress={playGame}>
+                  <LinearGradient
+                    colors={[
+                      "rgba(116, 53, 0, 1)",
+                      "rgba(255, 246, 193, 1)",
+                      "rgba(243, 231, 149, 1)",
+                      "rgba(203, 105, 4, 1)",
+                      "rgba(235, 134, 6, 1)",
+                      "rgba(184, 93, 0, 1)",
+                      "rgba(142, 63, 6, 1)",
+                    ]}
+                    style={styles.buttonSuccess}
                   >
-                    {translate("general.accept")}
-                  </Text>
-                </LinearGradient>
-              </Pressable>
-            </View>
-          </>
-        )}
-      </ImageBackground>
-    </SafeAreaView>
+                    <Text
+                      style={{
+                        fontSize: moderateScale(15),
+                        color: "white",
+                        fontWeight: "bold",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {translate("general.accept")}
+                    </Text>
+                  </LinearGradient>
+                </Pressable>
+              </View>
+            </>
+          )}
+        </ImageBackground>)
+      }
+    </>
   );
 };
 
