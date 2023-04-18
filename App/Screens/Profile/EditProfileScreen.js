@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 
 import Header from "../../Components/CustomUI/Header";
@@ -38,8 +38,9 @@ const EditProfileScreen = () => {
         username_,
       });
       if (response) console.log("UPDATED");
+      await refreshUser();
       setLoading(false);
-      refreshUser();
+      Alert.alert("", translate("general.success"))
     } catch (error) {
       console.log(error?.response?.data?.error?.message);
       if (
@@ -57,7 +58,7 @@ const EditProfileScreen = () => {
   const foundedCountry = countryItems.find(({ value }) => value === country);
 
   return (
-    <View>
+    <ScrollView>
       <Header backTitle={translate("profile.profile")} />
       <View style={styles.mainContainer}>
         <ProfileInput
@@ -119,7 +120,7 @@ const EditProfileScreen = () => {
           />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 export default EditProfileScreen;

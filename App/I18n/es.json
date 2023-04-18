@@ -28,7 +28,8 @@
     "available": "disponible",
     "accumulated": "acumulado",
     "username": "Nombre de usuario",
-    "error": "Se ha producido un error al cargar el anuncio, inténtelo de nuevo más tarde."
+    "error": "Se ha producido un error al cargar el anuncio, inténtelo de nuevo más tarde.",
+    "success": "Exitoso"
   },
   "authentication": {
     "createAccount": "Crear cuenta",

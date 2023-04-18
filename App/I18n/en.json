@@ -27,7 +27,8 @@
     "available": "available",
     "accumulated": "accumulated",
     "username": "Username",
-    "error": "An error occurred while loading the ad, please try again later."
+    "error": "An error occurred while loading the ad, please try again later.",
+    "success": "Success"
   },
   "authentication": {
     "createAccount": "Create Account",
@@ -198,7 +199,7 @@
     "refereceNumber": "Your Reference number is:",
     "successRequest": "Successful",
     "withdrawInsufficientBalance": "Insufficient Balance",
-    "tryLaterError": "Error, try later"
+    "tryLaterError": "Error, try later",
   },
   "chains": {
     "totalUsers": "Total amount",
