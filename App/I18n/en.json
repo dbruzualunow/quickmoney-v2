@@ -28,7 +28,9 @@
     "accumulated": "accumulated",
     "username": "Username",
     "error": "An error occurred while loading the ad, please try again later.",
-    "success": "Success"
+    "success": "Success",
+    "generalError": "An error has occurred, try later",
+    "networkError": "Network Error"
   },
   "authentication": {
     "createAccount": "Create Account",

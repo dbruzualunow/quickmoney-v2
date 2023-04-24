@@ -93,11 +93,11 @@ const ScratchCardScreen = ({ route, navigation }) => {
       setYourCards(cardIndex);
       setYourDices(dadoIndex);
       setYourTragaPerras(tragaperraIndex);
+      setRequestedReward(true)
     }, 200);
     setTimeout(() => {
-      setRequestedReward(true)
       showRewardedAd()
-    }, 750);
+    }, 1000);
   }, []);
 
   useEffect(() => {

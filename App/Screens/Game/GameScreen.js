@@ -104,8 +104,10 @@ const GameScreen = ({ navigation }) => {
         }
       })
       .catch((error) => {
-        console.log("ERROR: ", { error });
-        setIsLoading(false);
+        const errorMessage = error.message === "Network Error" ? translate('general.networkError') : translate('general.generalError')
+        Alert.alert('Error', errorMessage, [
+          { text: "OK", onPress: () => navigation.navigate('Home')},
+        ])
       });
   }, [isFocused]);
 
