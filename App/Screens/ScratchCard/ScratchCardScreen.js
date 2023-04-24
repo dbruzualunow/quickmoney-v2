@@ -74,6 +74,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
   };
   
   useEffect(() => {
+    setRequestedReward(true)
     setTimeout(() => {
       let WC = [];
       let WD = [];
@@ -93,8 +94,7 @@ const ScratchCardScreen = ({ route, navigation }) => {
       setYourCards(cardIndex);
       setYourDices(dadoIndex);
       setYourTragaPerras(tragaperraIndex);
-      setRequestedReward(true)
-    }, 200);
+    }, 0);
     setTimeout(() => {
       showRewardedAd()
     }, 1000);
