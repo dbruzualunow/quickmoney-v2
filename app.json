@@ -1,4 +1,8 @@
 {
   "name": "QuickMoney",
-  "displayName": "QuickMoney"
+  "displayName": "QuickMoney",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-7068771338302888~8256780880",
+    "ios_app_id": "ca-app-pub-7068771338302888~5630617540"
+  }
 }

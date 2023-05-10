@@ -11,7 +11,7 @@ import {
   Modal,
   ScrollView,
 } from "react-native";
-import AdsContextProvider, { AdsContext } from "../../Context/AdsContextProvider";
+import { AdsContext } from "../../Context/AdsContextProvider";
 import { ScratchCard } from "rn-scratch-card";
 import LinearGradient from "react-native-linear-gradient";
 import React, { useState, useContext } from "react";
@@ -28,8 +28,9 @@ import {
   moderateScale,
   verticalScale,
 } from "../../../Metrics";
-import { AppodealInterstitialEvent, AppodealRewardedEvent } from "react-native-appodeal";
+// import { AppodealInterstitialEvent, AppodealRewardedEvent } from "react-native-appodeal";
 import ApiService from "../../Services/ApiService";
+import { AdEventType } from "react-native-google-mobile-ads";
 
 const ScratchCardScreen = ({ route, navigation }) => {
 
@@ -61,10 +62,8 @@ const ScratchCardScreen = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showButton, setShowButton] = useState(false);
-  const {showRewardedAd, stateAd, setStateAd} = useContext(AdsContext);
-  const [requestedReward, setRequestedReward] = useState(false)
+  const {stateAd, showAd, resetFlow} = useContext(AdsContext);
   const [scrollEnabled, setScrollEnabled] = useState(true);
-  console.log("🚀 ~ file: ScratchCardScreen.js:66 ~ ScratchCardScreen ~ requestedReward:", requestedReward)
   console.log("🚀 ~ file: ScratchCardScreen.js:65 ~ ScratchCardScreen ~ setStateAd:", stateAd)
 
   const imagesMaquinas = {
@@ -74,7 +73,9 @@ const ScratchCardScreen = ({ route, navigation }) => {
   };
   
   useEffect(() => {
-    setRequestedReward(true)
+    setTimeout(() => {
+      showAd()
+    }, 750);
     setTimeout(() => {
       let WC = [];
       let WD = [];
@@ -95,25 +96,22 @@ const ScratchCardScreen = ({ route, navigation }) => {
       setYourDices(dadoIndex);
       setYourTragaPerras(tragaperraIndex);
     }, 0);
-    setTimeout(() => {
-      showRewardedAd()
-    }, 1000);
   }, []);
 
   useEffect(() => {
-    if (
-        [AppodealInterstitialEvent.FAILED_TO_SHOW,
-         AppodealInterstitialEvent.FAILED_TO_LOAD,
-         AppodealInterstitialEvent.CLOSED,
-        ].includes(stateAd) && requestedReward
-        ){
-          setStateAd(null)
-          setIsLoading(false)
-        }
-    else if(stateAd === AppodealInterstitialEvent.SHOWN && requestedReward) {
+    if (stateAd === AdEventType.ERROR) {
+      resetFlow()
+      setIsLoading(false)
+    }
+    if (stateAd === AdEventType.OPENED) {
+      setIsLoading(false)
+    }
+    if (stateAd === AdEventType.CLOSED) {
+      resetFlow()
       try {
         ApiService.postAdVisualization()
       } catch (error) {
+        console.log("🚀 ~ file: ScratchCardScreen.js:117 ~ useEffect ~ error:", error)
       }
     }
   }, [stateAd])

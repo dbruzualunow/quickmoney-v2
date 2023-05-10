@@ -34,7 +34,7 @@ import {
   verticalScale,
 } from "../../../Metrics";
 // import { AdsContext } from "../../Context/AdsContextProvider";
-import { AppodealInterstitialEvent } from "react-native-appodeal";
+// import { AppodealInterstitialEvent } from "react-native-appodeal";
 
 // const adUnitId = Config.ADMOB_ID;
 
