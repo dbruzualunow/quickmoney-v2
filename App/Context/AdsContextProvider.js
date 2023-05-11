@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import MobileAds, { InterstitialAd, TestIds }  from 'react-native-google-mobile-ads';
 import { AdEventType } from "react-native-google-mobile-ads/src";
 
-const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
+const interstitial = InterstitialAd.createForAdRequest(__DEV__ ? TestIds.INTERSTITIAL : "ca-app-pub-7068771338302888/5496968093");
 
 const initializeAds = async (setStateAd, setInitialized) => {
   const adapterStatuses = await MobileAds().initialize()
