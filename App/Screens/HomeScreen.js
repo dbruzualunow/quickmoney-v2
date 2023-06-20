@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Pressable,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 
 import { ScrollView } from "react-native-gesture-handler";
@@ -25,11 +26,12 @@ import { AdsContext } from "../Context/AdsContextProvider";
 
 const HomeScreen = (props) => {
   const isFocused = useIsFocused();
-
   const { navigation } = props;
   const [totalOnlineUsers, setTotalOnlineUsers] = useState(0);
   const [totalEarnedPrices, setTotalEarnedPrices] = useState(0);
   const [totalChainEarnedPrices, setTotalChainEarnedPrices] = useState(0);
+  const [showAvailableAttemptsReminder, setShowAvailableAttemptsReminder] = useState(false);
+
   const [avaliablePrizes, setAvaliablePrizes] = useState([
     { index: 1, quantity: 2000 },
     { index: 2, quantity: 1000 },
@@ -39,9 +41,7 @@ const HomeScreen = (props) => {
   const [topChains, setTopChains] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { signOut } = useContext(AuthenticationContext);
-  const { showRewardedAd } = useContext(AdsContext);
-
+  const { signOut, user } = useContext(AuthenticationContext);
   const getTotalEarnedPrices = async () => {
     try {
       const response = await ApiService.getTotalEarnedPrices();
@@ -96,6 +96,13 @@ const HomeScreen = (props) => {
     }
   };
 
+
+  const getShowAvailableAttemptsReminder = async () => {
+    const response = await ApiService.getUser();
+    const result = response?.data?.showAvailableAttemptsReminder || false;
+    setShowAvailableAttemptsReminder(result);
+  }
+
   useEffect(() => {
     Promise.all([
       getTotalEarnedPrices(),
@@ -104,6 +111,7 @@ const HomeScreen = (props) => {
       getTopPlayers(),
       getTopChains(),
       getTotalOnlineUsers(),
+      getShowAvailableAttemptsReminder(),
     ])
       .then(() => {
         setLoading(false);
@@ -115,6 +123,23 @@ const HomeScreen = (props) => {
         setLoading(false);
       });
   }, [isFocused]);
+
+  const handlerReminderSeen = async () => {
+    try {
+      setShowAvailableAttemptsReminder(false);
+      await ApiService.updateUser(user.id, { showAvailableAttemptsReminder : false })
+    } catch (error) {
+      console.log("🚀 ~ file: HomeScreen.js:133 ~ handlerReminderSeen ~ error:", error)
+    } 
+  }
+
+  useEffect(() => {
+    if (showAvailableAttemptsReminder) {
+      Alert.alert("Info", translate('general.showAvailableAttemptsReminder'), [
+        { text: "Ok", onPress: () => handlerReminderSeen()}
+      ])
+    }
+  }, [showAvailableAttemptsReminder]);
 
   return (
     <>

@@ -30,7 +30,8 @@
     "error": "An error occurred while loading the ad, please try again later.",
     "success": "Success",
     "generalError": "An error has occurred, try later",
-    "networkError": "Network Error"
+    "networkError": "Network Error",
+    "showAvailableAttemptsReminder": "You already have your 10 games available!"
   },
   "authentication": {
     "createAccount": "Create Account",
