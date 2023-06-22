@@ -3,6 +3,7 @@ import translate, { setI18nConfig } from "../I18n";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ApiService from "../Services/ApiService";
+import PushNotification from 'react-native-push-notification';
 
 export const AuthenticationContext = createContext();
 
@@ -42,9 +43,9 @@ export const AuthenticationContextProvider = ({children}) => {
         () => ({
             signIn: async (data) => {
                 let success = false;
-
+                const fcmToken = await AsyncStorage.getItem('fcmToken') || '';
                 try {
-                    const response = await ApiService.login({...data, email: data.email.trim()});
+                    const response = await ApiService.login({...data, email: data.email.trim(), fcmToken});
                     if (response?.data?.jwt) {
                         setUser(response.data.user);
                         success = true;
@@ -59,6 +60,7 @@ export const AuthenticationContextProvider = ({children}) => {
                 return success;
             },
             signOut: async () => {
+                await ApiService.signOut(user);
                 ApiService.cleanAuthorizationHeader();
                 await AsyncStorage.removeItem('userToken');
                 dispatch({type: 'SIGN_OUT'})
@@ -66,7 +68,8 @@ export const AuthenticationContextProvider = ({children}) => {
             signUp: async (data) => {
                 const result = {success: false, errorMsg: null};
                 try {
-                    const response = await ApiService.register(data);
+                    const fcmToken = await AsyncStorage.getItem('fcmToken') || '';
+                    const response = await ApiService.register({...data, fcmToken});
                     if (response?.data?.jwt) {
                         setUser(response.data.user);
                         await ApiService.setAuthorizationHeader(response?.data?.jwt)

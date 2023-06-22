@@ -1,45 +1,46 @@
 {
   "project_info": {
-    "project_number": "447508817925",
-    "project_id": "quickmoney-faa80",
-    "storage_bucket": "quickmoney-faa80.appspot.com"
+    "project_number": "393809536636",
+    "project_id": "quick-app-ab1dc",
+    "storage_bucket": "quick-app-ab1dc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:447508817925:android:fbd34c86ea0ed5afda546c",
+        "mobilesdk_app_id": "1:393809536636:android:c49e8a259f872c85ffcbf9",
         "android_client_info": {
           "package_name": "app.redpyv.quick"
         }
       },
       "oauth_client": [
         {
-          "client_id": "447508817925-rgjrbua5dfmo3hl5uuvggk3pe4bbfqv1.apps.googleusercontent.com",
+          "client_id": "393809536636-49e7q2876v4vv3v4e688ne7nab6o5pu5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDoeR5VMqHjpmXzS7mJ1RfLpQR_XLABZwY"
+          "current_key": "AIzaSyDWjTOxZS0IexIQyO4Jr-lDYpLzNPB62OU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "447508817925-rgjrbua5dfmo3hl5uuvggk3pe4bbfqv1.apps.googleusercontent.com",
+              "client_id": "393809536636-49e7q2876v4vv3v4e688ne7nab6o5pu5.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "447508817925-adkratj5ri4r7mb62lhtkp20kaj644n8.apps.googleusercontent.com",
+              "client_id": "393809536636-uama4fj8v801i65bd4h35p7l7m755n98.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "app.redpyv.quick"
+                "bundle_id": "com.quickapp"
               }
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-7068771338302888~8256780880"
     }
   ],
   "configuration_version": "1"

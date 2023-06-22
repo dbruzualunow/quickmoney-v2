@@ -34,7 +34,7 @@ class ApiService {
     delete this.api.defaults.headers.common["Authorization"];
   }
 
-  async register({ email, password, name, country, sharingCode, username }) {
+  async register({ email, password, name, country, sharingCode, username, fcmToken }) {
     const response = await this.api.post("auth/local/register", {
       email,
       username: email,
@@ -43,16 +43,28 @@ class ApiService {
       password,
       name,
       username,
+      fcmToken
     });
     return response;
   }
 
-  async login({ email, password }) {
+  async login({ email, password, fcmToken }) {
     try {
       const response = await this.api.post("auth/local", {
         identifier: email,
         password,
+        fcmToken
       });
+      return response;
+    } catch (error) {
+      console.log("ERROR: ", { error });
+      return error.response;
+    }
+  }
+
+  async signOut(user) {
+    try {
+      const response = await this.api.post("auth/signOut", user);
       return response;
     } catch (error) {
       console.log("ERROR: ", { error });
