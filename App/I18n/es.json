@@ -31,8 +31,7 @@
     "error": "Se ha producido un error al cargar el anuncio, inténtelo de nuevo más tarde.",
     "success": "Exitoso",
     "generalError": "Ha ocurrido un error, intente más tarde",
-    "networkError": "Error de red",
-    "showAvailableAttemptsReminder": "¡Ya tienes tus 10 partidas disponibles!"
+    "networkError": "Error de red"
   },
   "authentication": {
     "createAccount": "Crear cuenta",
