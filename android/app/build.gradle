@@ -108,8 +108,8 @@ android {
         applicationId "app.redpyv.quick"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 69
-        versionName "0.5.9"
+        versionCode 70
+        versionName "0.6.0"
         multiDexEnabled true
     }
 
