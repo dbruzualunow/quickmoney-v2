@@ -7,6 +7,7 @@ import App from './App';
 import {name as appName} from './app.json';
 import PushNotification , {Importance} from 'react-native-push-notification';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { InitializationEvents, InterstitialEvents, IronSource } from 'ironsource-mediation';
 
 PushNotification.createChannel(
     {
@@ -37,5 +38,16 @@ PushNotification.configure({
   popInitialNotification: true,
   requestPermissions: true,
 })
+
+InitializationEvents.onInitializationComplete.setListener(() =>{
+  console.log('onInitializationComplete')
+});
+// InterstitialEvents.onInterstitialAdReady.setListener();
+InterstitialEvents.onInterstitialAdShowSucceeded.setListener(() => console.log("onInterstitialAdShowSucceeded"));
+
+IronSource.init('1a9e88185');
+
+IronSource.validateIntegration();
+IronSource.loadInterstitial();
 
 AppRegistry.registerComponent(appName, () => App);
