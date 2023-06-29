@@ -28,9 +28,8 @@ import {
   moderateScale,
   verticalScale,
 } from "../../../Metrics";
-// import { AppodealInterstitialEvent, AppodealRewardedEvent } from "react-native-appodeal";
 import ApiService from "../../Services/ApiService";
-import { AdEventType } from "react-native-google-mobile-ads";
+import { AdStatutes } from "../../Context/AdsContextProvider";
 
 const ScratchCardScreen = ({ route, navigation }) => {
 
@@ -99,14 +98,14 @@ const ScratchCardScreen = ({ route, navigation }) => {
   }, []);
 
   useEffect(() => {
-    if (stateAd === AdEventType.ERROR) {
+    if (stateAd === AdStatutes.ERROR) {
       resetFlow()
       setIsLoading(false)
     }
-    if (stateAd === AdEventType.OPENED) {
+    if (stateAd === AdStatutes.OPENED) {
       setIsLoading(false)
     }
-    if (stateAd === AdEventType.CLOSED) {
+    if (stateAd === AdStatutes.CLOSED) {
       resetFlow()
       try {
         ApiService.postAdVisualization()

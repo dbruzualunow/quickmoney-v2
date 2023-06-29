@@ -21,7 +21,6 @@ import TopChainsCard from "../Components/Home/TopChainsCard";
 import ApiService from "../Services/ApiService";
 import { AuthenticationContext } from "../Context/AuthenticationContextProvider";
 import { moderateScale, horizontalScale, verticalScale } from "../../Metrics";
-import { AdsContext } from "../Context/AdsContextProvider";
 
 const HomeScreen = (props) => {
   const isFocused = useIsFocused();
@@ -40,7 +39,6 @@ const HomeScreen = (props) => {
   const [loading, setLoading] = useState(true);
 
   const { signOut } = useContext(AuthenticationContext);
-  const { showRewardedAd } = useContext(AdsContext);
 
   const getTotalEarnedPrices = async () => {
     try {

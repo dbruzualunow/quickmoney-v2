@@ -4112,7 +4112,7 @@ ip@^1.1.5:
   resolved "https://registry.npmjs.org/ip/-/ip-1.1.8.tgz"
   integrity sha512-PuExPYUiu6qMBQb4l06ecm6T6ujzhmh+MeJcW9wa89PoAz5pvd4zPgN5WJV104mb6S2T1AwNIAaB70JNrLQWhg==
 
-ironsource-mediation@^1.0.0:
+ironsource-mediation@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ironsource-mediation/-/ironsource-mediation-1.0.0.tgz#21bcbe4920639e1fcce568fa0aac2ce3307b22bb"
   integrity sha512-Z8sqaOE7WXs6unfaFWuN1e/ynEX8S0YST91eDJSgyl33Pvnxn5mgxVhj58KlmRD+z3GP1qeutE5y/v51cQWWlw==
