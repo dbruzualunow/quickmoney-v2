@@ -274,7 +274,7 @@ class ApiService {
   }
 
   async setTimeZoneOffset() {
-    const timeZoneOffset = new Date().getTimezoneOffset()/60;
+    const timeZoneOffset = new Date().getTimezoneOffset();
     const response = await this.api.put("users/me/timeZoneOffset", {timeZoneOffset});
     return response;
   }
