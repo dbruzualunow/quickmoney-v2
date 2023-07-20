@@ -60,6 +60,8 @@ const PlayGameScreen = ({ navigation }) => {
         }
     }
 
+    const ticketsAvailable = (maxGamesPerDay - numbersPlaysToday) < 0 ? 0 : maxGamesPerDay - numbersPlaysToday
+
     return (
         <View>
             <Header backTitle={translate('general.play')}/>
@@ -76,7 +78,7 @@ const PlayGameScreen = ({ navigation }) => {
                         {/* <Text style={styles.title}>{translate('game.game')}</Text> */}
                         <Text style={styles.title}>{translate('game.availablePlays')}</Text>
 
-                        <Text style={styles.tickets}>{` ${maxGamesPerDay - numbersPlaysToday} `}</Text>
+                        <Text style={styles.tickets}>{` ${ticketsAvailable} `}</Text>
 
                         {/* <Text style={styles.tickets}>-1 ticket</Text> */}
                     </View>
