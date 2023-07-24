@@ -272,6 +272,12 @@ class ApiService {
     const response = await this.api.post("prize/request_money/paypal", data);
     return response;
   }
+
+  async setTimeZoneOffset() {
+    const timeZoneOffset = new Date().getTimezoneOffset();
+    const response = await this.api.put("users/me/timeZoneOffset", {timeZoneOffset});
+    return response;
+  }
 }
 
 export default new ApiService();

@@ -94,6 +94,10 @@ const HomeScreen = (props) => {
     }
   };
 
+  const setTimeZoneOffset = async () => {
+    await ApiService.setTimeZoneOffset();
+  }
+
   useEffect(() => {
     Promise.all([
       getTotalEarnedPrices(),
@@ -102,6 +106,7 @@ const HomeScreen = (props) => {
       getTopPlayers(),
       getTopChains(),
       getTotalOnlineUsers(),
+      setTimeZoneOffset()
     ])
       .then(() => {
         setLoading(false);

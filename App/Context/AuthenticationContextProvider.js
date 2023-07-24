@@ -60,7 +60,8 @@ export const AuthenticationContextProvider = ({children}) => {
                 return success;
             },
             signOut: async () => {
-                await ApiService.signOut(user);
+                const fcmToken = await AsyncStorage.getItem('fcmToken')
+                await ApiService.signOut({...user, fcmToken});
                 ApiService.cleanAuthorizationHeader();
                 await AsyncStorage.removeItem('userToken');
                 dispatch({type: 'SIGN_OUT'})
