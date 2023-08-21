@@ -33,7 +33,6 @@ import ApiService from "../../Services/ApiService";
 import { AdEventType } from "react-native-google-mobile-ads";
 
 const ScratchCardScreen = ({ route, navigation }) => {
-
   const TYPES = ["corazones", "treboles", "diamantes", "picas"];
   const [result, setResult] = useState(false);
   const animatedListCurrency = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -62,19 +61,22 @@ const ScratchCardScreen = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showButton, setShowButton] = useState(false);
-  const {stateAd, showAd, resetFlow} = useContext(AdsContext);
+  const { stateAd, showAd, resetFlow } = useContext(AdsContext);
   const [scrollEnabled, setScrollEnabled] = useState(true);
-  console.log("🚀 ~ file: ScratchCardScreen.js:65 ~ ScratchCardScreen ~ setStateAd:", stateAd)
+  console.log(
+    "🚀 ~ file: ScratchCardScreen.js:65 ~ ScratchCardScreen ~ setStateAd:",
+    stateAd
+  );
 
   const imagesMaquinas = {
     2: require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_2.png`),
     3: require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_3.png`),
     4: require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_4.png`),
   };
-  
+
   useEffect(() => {
     setTimeout(() => {
-      showAd()
+      showAd();
     }, 750);
     setTimeout(() => {
       let WC = [];
@@ -100,22 +102,24 @@ const ScratchCardScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     if (stateAd === AdEventType.ERROR) {
-      resetFlow()
-      setIsLoading(false)
+      resetFlow();
+      setIsLoading(false);
     }
     if (stateAd === AdEventType.OPENED) {
-      setIsLoading(false)
+      setIsLoading(false);
     }
     if (stateAd === AdEventType.CLOSED) {
-      resetFlow()
+      resetFlow();
       try {
-        ApiService.postAdVisualization()
+        ApiService.postAdVisualization();
       } catch (error) {
-        console.log("🚀 ~ file: ScratchCardScreen.js:117 ~ useEffect ~ error:", error)
+        console.log(
+          "🚀 ~ file: ScratchCardScreen.js:117 ~ useEffect ~ error:",
+          error
+        );
       }
     }
-  }, [stateAd])
-  
+  }, [stateAd]);
 
   const handleScratch = (scratchPercentage) => {
     if (scratchPercentage < 54) {
@@ -145,267 +149,127 @@ const ScratchCardScreen = ({ route, navigation }) => {
           />
         ) : (
           <>
-          <ScrollView showsVerticalScrollIndicator={true} scrollEnabled={scrollEnabled}>
-            <View style={styles.gameContainer} onStartShouldSetResponder={(e) => {
-              console.log(e?.target?.viewConfig?.directEventTypes?.topOnScratch?.registrationName?.toLowerCase())
-              if (e?.target?.viewConfig?.directEventTypes?.topOnScratch?.registrationName?.toLowerCase() === 'onscratch') {
-                setScrollEnabled(false)
-              } else {
-                setScrollEnabled(true)
-              }
-            }}>
-              <View style={{ marginTop: verticalScale(50) }}>
-                <Text style={styles.titleGame}>
-                  {translate("scratchCard.titleGame")}
-                </Text>
-
-                <ImageBackground
-                  source={require("./../../Assets/Images/rasca-gana/Marco_rasca-gana.png")}
-                  style={styles.marco}
-                  resizeMode="contain"
-                >
-                  <View style={styles.marcostyles}>
-                    <View style={styles.d_flex}>
-                      {winingCards?.map((_, index) => (
-                        <View
-                          key={index}
-                          style={{
-                            borderWidth:
-                              result === true && yourCards[index] === _ ? 2 : 0,
-                            borderColor:
-                              result === true && yourCards[index] === _
-                                ? "#2EDC13"
-                                : "transparent",
-                            borderRadius: 5,
-                            paddingTop: 6,
-                            paddingBottom: 6,
-                          }}
-                        >
-                          <Card
-                            card={winingCards[index]}
-                            type={TYPES[index]}
-                            stylesValue={{
-                              width: horizontalScale(50),
-                              height: verticalScale(50),
-                            }}
-                          />
-                        </View>
-                      ))}
-                    </View>
-                    <View style={styles.d_flex}>
-                      {winningDices?.map((_, index) => (
-                        <View
-                          key={index}
-                          style={{
-                            borderWidth:
-                              result === true && yourDices[index] === _ ? 2 : 0,
-                            borderColor:
-                              result === true && yourDices[index] === _
-                                ? "#2EDC13"
-                                : "transparent",
-                            borderRadius: 5,
-                          }}
-                        >
-                          <Craps
-                            key={index}
-                            value={winningDices[index]}
-                            styleValue={{
-                              width: horizontalScale(50),
-                              height: verticalScale(50),
-                            }}
-                          />
-                        </View>
-                      ))}
-                    </View>
-
-                    <Image
-                      source={
-                        imagesMaquinas[numNumbersAvailable] ||
-                        require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_4.png`)
-                      }
-                      resizeMode="contain"
-                      style={styles.tragaperrasWin}
-                    />
-
-                    <View
-                      style={{
-                        top: 18,
-                        alignSelf: "center",
-                        ...styles.d_flex,
-                        width:
-                          winningTragaPerras.length === 4
-                            ? 156
-                            : winningTragaPerras.length === 3
-                            ? 118
-                            : 76,
-                      }}
-                    >
-                      {winningTragaPerras?.map((v, index) => (
-                        <View
-                          key={index}
-                          style={{
-                            borderWidth:
-                              result === true && yourTragaPerras[index] === v
-                                ? 2
-                                : 0,
-                            borderRadius: 10,
-                            borderColor:
-                              result === true && yourTragaPerras[index] === v
-                                ? "#2EDC13"
-                                : "transparent",
-                            height: 90,
-                            width: 40,
-                          }}
-                        >
-                          <Tragaperra
-                            styleValue={{
-                              top:
-                                result === true && yourTragaPerras[index] === v
-                                  ? 22
-                                  : 25,
-                              left: -3,
-                              width: 32,
-                              height: 45,
-                            }}
-                            value={v}
-                          />
-                        </View>
-                      ))}
-                    </View>
-                  </View>
-                  {!result && (
-                    <ScratchCard
-                      source={require("./../../Assets/Images/rasca-gana/Rasca.png")}
-                      brushWidth={40}
-                      onScratch={handleScratch}
-                      style={styles.scratch_card}
-                      onStartShouldSetResponder={(e) => setScrollEnabled(false)}
-                    />
-                  )}
-                </ImageBackground>
-              </View>
-
+            <ScrollView
+              showsVerticalScrollIndicator={true}
+              scrollEnabled={scrollEnabled}
+            >
               <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  width: Dimensions.get("window").width,
+                style={styles.gameContainer}
+                onStartShouldSetResponder={(e) => {
+                  console.log(
+                    e?.target?.viewConfig?.directEventTypes?.topOnScratch?.registrationName?.toLowerCase()
+                  );
+                  if (
+                    e?.target?.viewConfig?.directEventTypes?.topOnScratch?.registrationName?.toLowerCase() ===
+                    "onscratch"
+                  ) {
+                    setScrollEnabled(false);
+                  } else {
+                    setScrollEnabled(true);
+                  }
                 }}
               >
-                <Text style={styles.titleElecciones}>
-                  {translate("game.yourChoices")}
-                </Text>
-                <View
-                  style={{
-                    ...styles.gamesSelections,
-                    opacity: result ? 1 : 0.5,
-                  }}
-                >
-                  <View style={{ padding: 8 }}>
-                    <View style={{ marginBottom: 2, ...styles.d_flex }}>
-                      {yourCards?.map((_, index) => (
-                        <View
-                          key={index}
-                          style={{
-                            borderWidth:
-                              result === true && winingCards[index] === _
-                                ? 2
-                                : 0,
-                            borderColor:
-                              result === true && winingCards[index] === _
-                                ? "#2EDC13"
-                                : "transparent",
-                            borderRadius: 5,
-                            paddingTop: 6,
-                            paddingBottom: 6,
-                          }}
-                        >
-                          <Card
-                            card={yourCards[index]}
-                            type={TYPES[index]}
-                            stylesValue={{
-                              width: 50,
-                              height: 60,
-                            }}
-                          />
-                        </View>
-                      ))}
-                    </View>
+                <View style={{ marginTop: verticalScale(50) }}>
+                  <Text style={styles.titleGame}>
+                    {translate("scratchCard.titleGame")}
+                  </Text>
 
-                    <View
-                      style={{
-                        ...styles.d_flex,
-                      }}
-                    >
-                      {yourDices?.map((_, index) => (
-                        <View
-                          key={index}
-                          style={{
-                            borderWidth:
-                              result === true && winningDices[index] === _
-                                ? 2
-                                : 0,
-                            borderColor:
-                              result === true && winningDices[index] === _
-                                ? "#2EDC13"
-                                : "transparent",
-                            borderRadius: 5,
-                          }}
-                        >
-                          <Craps
-                            value={dadoIndex[index]}
-                            isAnimate={false}
-                            styleValue={{ width: 50, height: 60 }}
-                          />
-                        </View>
-                      ))}
-                    </View>
-
-                    <Image
-                      source={
-                        imagesMaquinas[numNumbersAvailable] ||
-                        require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_4.png`)
-                      }
-                      resizeMode="contain"
-                      style={{
-                        flex: 1,
-                        width: "100%",
-                        height: 230,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        alignSelf: "center",
-                        position: "absolute",
-                        bottom: -80,
-                      }}
-                    />
-
-                    <View
-                      style={{
-                        top: 18,
-                        alignSelf: "center",
-                        ...styles.d_flex,
-                        width:
-                          winningTragaPerras.length === 4
-                            ? 156
-                            : winningTragaPerras.length === 3
-                            ? 118
-                            : 76,
-                      }}
-                    >
-                      {yourTragaPerras?.map((v, index) => {
-                        return (
+                  <ImageBackground
+                    source={require("./../../Assets/Images/rasca-gana/Marco_rasca-gana.png")}
+                    style={styles.marco}
+                    resizeMode="contain"
+                  >
+                    <View style={styles.marcostyles}>
+                      <View style={styles.d_flex}>
+                        {winingCards?.map((_, index) => (
                           <View
                             key={index}
                             style={{
                               borderWidth:
-                                result === true &&
-                                winningTragaPerras[index] === v
+                                result === true && yourCards[index] === _
+                                  ? 2
+                                  : 0,
+                              borderColor:
+                                result === true && yourCards[index] === _
+                                  ? "#2EDC13"
+                                  : "transparent",
+                              borderRadius: 5,
+                              paddingTop: 6,
+                              paddingBottom: 6,
+                            }}
+                          >
+                            <Card
+                              card={winingCards[index]}
+                              type={TYPES[index]}
+                              stylesValue={{
+                                width: horizontalScale(50),
+                                height: verticalScale(50),
+                              }}
+                            />
+                          </View>
+                        ))}
+                      </View>
+                      <View style={styles.d_flex}>
+                        {winningDices?.map((_, index) => (
+                          <View
+                            key={index}
+                            style={{
+                              borderWidth:
+                                result === true && yourDices[index] === _
+                                  ? 2
+                                  : 0,
+                              borderColor:
+                                result === true && yourDices[index] === _
+                                  ? "#2EDC13"
+                                  : "transparent",
+                              borderRadius: 5,
+                            }}
+                          >
+                            <Craps
+                              key={index}
+                              value={winningDices[index]}
+                              styleValue={{
+                                width: horizontalScale(50),
+                                height: verticalScale(50),
+                              }}
+                            />
+                          </View>
+                        ))}
+                      </View>
+
+                      <Image
+                        source={
+                          imagesMaquinas[numNumbersAvailable] ||
+                          require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_4.png`)
+                        }
+                        resizeMode="contain"
+                        style={styles.tragaperrasWin}
+                      />
+
+                      <View
+                        style={{
+                          top: 18,
+                          alignSelf: "center",
+                          ...styles.d_flex,
+                          width:
+                            winningTragaPerras.length === 4
+                              ? 156
+                              : winningTragaPerras.length === 3
+                              ? 118
+                              : 76,
+                        }}
+                      >
+                        {winningTragaPerras?.map((v, index) => (
+                          <View
+                            key={index}
+                            style={{
+                              borderWidth:
+                                result === true && yourTragaPerras[index] === v
                                   ? 2
                                   : 0,
                               borderRadius: 10,
                               borderColor:
-                                result === true &&
-                                winningTragaPerras[index] === v
+                                result === true && yourTragaPerras[index] === v
                                   ? "#2EDC13"
                                   : "transparent",
                               height: 90,
@@ -416,139 +280,300 @@ const ScratchCardScreen = ({ route, navigation }) => {
                               styleValue={{
                                 top:
                                   result === true &&
-                                  winningTragaPerras[index] === v
-                                    ? 21
-                                    : 24,
+                                  yourTragaPerras[index] === v
+                                    ? 22
+                                    : 25,
                                 left: -3,
                                 width: 32,
-                                height: 44,
+                                height: 45,
                               }}
                               value={v}
                             />
                           </View>
-                        );
-                      })}
+                        ))}
+                      </View>
+                    </View>
+                    {!result && (
+                      <ScratchCard
+                        source={require("./../../Assets/Images/rasca-gana/Rasca.png")}
+                        brushWidth={40}
+                        onScratch={handleScratch}
+                        style={styles.scratch_card}
+                        onStartShouldSetResponder={(e) =>
+                          setScrollEnabled(false)
+                        }
+                      />
+                    )}
+                  </ImageBackground>
+                </View>
+
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "center",
+                    width: Dimensions.get("window").width,
+                  }}
+                >
+                  <Text style={styles.titleElecciones}>
+                    {translate("game.yourChoices")}
+                  </Text>
+                  <View
+                    style={{
+                      ...styles.gamesSelections,
+                      opacity: result ? 1 : 0.5,
+                    }}
+                  >
+                    <View style={{ padding: 8 }}>
+                      <View style={{ marginBottom: 2, ...styles.d_flex }}>
+                        {yourCards?.map((_, index) => (
+                          <View
+                            key={index}
+                            style={{
+                              borderWidth:
+                                result === true && winingCards[index] === _
+                                  ? 2
+                                  : 0,
+                              borderColor:
+                                result === true && winingCards[index] === _
+                                  ? "#2EDC13"
+                                  : "transparent",
+                              borderRadius: 5,
+                              paddingTop: 6,
+                              paddingBottom: 6,
+                            }}
+                          >
+                            <Card
+                              card={yourCards[index]}
+                              type={TYPES[index]}
+                              stylesValue={{
+                                width: 50,
+                                height: 60,
+                              }}
+                            />
+                          </View>
+                        ))}
+                      </View>
+
+                      <View
+                        style={{
+                          ...styles.d_flex,
+                        }}
+                      >
+                        {yourDices?.map((_, index) => (
+                          <View
+                            key={index}
+                            style={{
+                              borderWidth:
+                                result === true && winningDices[index] === _
+                                  ? 2
+                                  : 0,
+                              borderColor:
+                                result === true && winningDices[index] === _
+                                  ? "#2EDC13"
+                                  : "transparent",
+                              borderRadius: 5,
+                            }}
+                          >
+                            <Craps
+                              value={dadoIndex[index]}
+                              isAnimate={false}
+                              styleValue={{ width: 50, height: 60 }}
+                            />
+                          </View>
+                        ))}
+                      </View>
+
+                      <Image
+                        source={
+                          imagesMaquinas[numNumbersAvailable] ||
+                          require(`../../Assets/Images/Tragaperras/Iconos-png/Maquina/Maquina_4.png`)
+                        }
+                        resizeMode="contain"
+                        style={{
+                          flex: 1,
+                          width: "100%",
+                          height: 230,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          alignSelf: "center",
+                          position: "absolute",
+                          bottom: -80,
+                        }}
+                      />
+
+                      <View
+                        style={{
+                          top: 18,
+                          alignSelf: "center",
+                          ...styles.d_flex,
+                          width:
+                            winningTragaPerras.length === 4
+                              ? 156
+                              : winningTragaPerras.length === 3
+                              ? 118
+                              : 76,
+                        }}
+                      >
+                        {yourTragaPerras?.map((v, index) => {
+                          return (
+                            <View
+                              key={index}
+                              style={{
+                                borderWidth:
+                                  result === true &&
+                                  winningTragaPerras[index] === v
+                                    ? 2
+                                    : 0,
+                                borderRadius: 10,
+                                borderColor:
+                                  result === true &&
+                                  winningTragaPerras[index] === v
+                                    ? "#2EDC13"
+                                    : "transparent",
+                                height: 90,
+                                width: 40,
+                              }}
+                            >
+                              <Tragaperra
+                                styleValue={{
+                                  top:
+                                    result === true &&
+                                    winningTragaPerras[index] === v
+                                      ? 21
+                                      : 24,
+                                  left: -3,
+                                  width: 32,
+                                  height: 44,
+                                }}
+                                value={v}
+                              />
+                            </View>
+                          );
+                        })}
+                      </View>
                     </View>
                   </View>
                 </View>
               </View>
-            </View>
 
-
-            <View style={styles.centeredView}>
-              <Modal
-                animationType="slide"
-                visible={modalVisible}
-                transparent={true}
-                onRequestClose={() => {
-                  Alert.alert("Modal has been closed.");
-                  setModalVisible(!modalVisible);
-                }}
-              >
-                <View
-                  style={{
-                    backgroundColor: "black",
-                    flex: 1,
-                    opacity: 0.8,
-                    alignItems: "center",
+              <View style={styles.centeredView}>
+                <Modal
+                  animationType="slide"
+                  visible={modalVisible}
+                  transparent={true}
+                  onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                    setModalVisible(!modalVisible);
                   }}
                 >
-                  {winningNumbers.status !== "losed" ? (
-                    <View
-                      style={{
-                        position: "absolute",
-                        flexDirection: "row",
-                        justifyContent: "space-evenly",
-                        width: "100%",
-                        zIndex: 9999,
-                      }}
-                      pointerEvents="none"
-                    >
-                      {animatedListCurrency?.map((v, index) => (
-                        <AnimatedTransformCurrency key={index}>
-                          <AnimatedCurrency />
-                        </AnimatedTransformCurrency>
-                      ))}
-                    </View>
-                  ) : null}
                   <View
                     style={{
-                      backgroundColor: "white",
-                      top: "40%",
-                      width: "80%",
-                      padding: 20,
-                      borderRadius: 20,
+                      backgroundColor: "black",
+                      flex: 1,
+                      opacity: 0.8,
                       alignItems: "center",
                     }}
                   >
-                    {winningNumbers.prizeIndex !== null &&
-                      winningNumbers.prizeIndex >= 0 && (
-                        <Image
-                          source={
-                            (winningNumbers.prizeIndex === 0 &&
-                              require("../../Assets/Images/Trofeos/fluent-emoji_trophy.png")) ||
-                            (winningNumbers.prizeIndex === 1 &&
-                              require("../../Assets/Images/Trofeos/fluent-emoji_trophy-1.png")) ||
-                            (winningNumbers.prizeIndex === 2 &&
-                              require("../../Assets/Images/Trofeos/fluent-emoji_trophy-2.png")) ||
-                            (winningNumbers.prizeIndex === 3 &&
-                              require("../../Assets/Images/Trofeos/fluent-emoji_sports-medal.png"))
-                          }
-                          style={{ width: 72, height: 72 }}
-                          resizeMode="contain"
-                        />
-                      )}
-                    <Text
+                    {winningNumbers.status !== "losed" ? (
+                      <View
+                        style={{
+                          position: "absolute",
+                          flexDirection: "row",
+                          justifyContent: "space-evenly",
+                          width: "100%",
+                          zIndex: 9999,
+                        }}
+                        pointerEvents="none"
+                      >
+                        {animatedListCurrency?.map((v, index) => (
+                          <AnimatedTransformCurrency key={index}>
+                            <AnimatedCurrency />
+                          </AnimatedTransformCurrency>
+                        ))}
+                      </View>
+                    ) : null}
+                    <View
                       style={{
-                        fontSize: 22,
-                        color: "black",
-                        fontWeight: "bold",
+                        backgroundColor: "white",
+                        top: "40%",
+                        width: "80%",
+                        padding: 20,
+                        borderRadius: 20,
+                        alignItems: "center",
                       }}
                     >
-                      {winningNumbers.status === "losed"
-                        ? translate("scratchCard.loseTitle")
-                        : "¡Ganaste!"}
-                    </Text>
-                    <Text
-                      style={{ fontSize: 18, color: "black", marginBottom: 25 }}
-                    >
-                      {winningNumbers.status === "losed"
-                        ? translate("scratchCard.loseDescription")
-                        : `¡Felicidades, has ganado ${LocaleFormatNumber(
-                            winningNumbers.prizeWin
-                          )} €`}
-                    </Text>
-
-                    <Pressable onPress={() => setModalVisible(false)}>
-                      <LinearGradient
-                        colors={[
-                          "rgba(116, 53, 0, 1)",
-                          "rgba(255, 246, 193, 1)",
-                          "rgba(243, 231, 149, 1)",
-                          "rgba(203, 105, 4, 1)",
-                          "rgba(235, 134, 6, 1)",
-                          "rgba(184, 93, 0, 1)",
-                          "rgba(142, 63, 6, 1)",
-                        ]}
-                        style={styles.buttonModal}
+                      {winningNumbers.prizeIndex !== null &&
+                        winningNumbers.prizeIndex >= 0 && (
+                          <Image
+                            source={
+                              (winningNumbers.prizeIndex === 0 &&
+                                require("../../Assets/Images/Trofeos/fluent-emoji_trophy.png")) ||
+                              (winningNumbers.prizeIndex === 1 &&
+                                require("../../Assets/Images/Trofeos/fluent-emoji_trophy-1.png")) ||
+                              (winningNumbers.prizeIndex === 2 &&
+                                require("../../Assets/Images/Trofeos/fluent-emoji_trophy-2.png")) ||
+                              (winningNumbers.prizeIndex === 3 &&
+                                require("../../Assets/Images/Trofeos/fluent-emoji_sports-medal.png"))
+                            }
+                            style={{ width: 72, height: 72 }}
+                            resizeMode="contain"
+                          />
+                        )}
+                      <Text
+                        style={{
+                          fontSize: 22,
+                          color: "black",
+                          fontWeight: "bold",
+                        }}
                       >
-                        <Text
-                          style={{
-                            fontSize: 15,
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
+                        {winningNumbers.status === "losed"
+                          ? translate("scratchCard.loseTitle")
+                          : "¡Ganaste!"}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          color: "black",
+                          marginBottom: 25,
+                        }}
+                      >
+                        {winningNumbers.status === "losed"
+                          ? translate("scratchCard.loseDescription")
+                          : `¡Felicidades, has ganado ${LocaleFormatNumber(
+                              winningNumbers.prizeWin
+                            )} €`}
+                      </Text>
+
+                      <Pressable onPress={() => setModalVisible(false)}>
+                        <LinearGradient
+                          colors={[
+                            "rgba(116, 53, 0, 1)",
+                            "rgba(255, 246, 193, 1)",
+                            "rgba(243, 231, 149, 1)",
+                            "rgba(203, 105, 4, 1)",
+                            "rgba(235, 134, 6, 1)",
+                            "rgba(184, 93, 0, 1)",
+                            "rgba(142, 63, 6, 1)",
+                          ]}
+                          style={styles.buttonModal}
                         >
-                          "VOLVER"
-                        </Text>
-                      </LinearGradient>
-                    </Pressable>
+                          <Text
+                            style={{
+                              fontSize: 15,
+                              color: "white",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            "VOLVER"
+                          </Text>
+                        </LinearGradient>
+                      </Pressable>
+                    </View>
                   </View>
-                </View>
-              </Modal>
-            </View>
-          </ScrollView>
-          {showButton ? (
+                </Modal>
+              </View>
+            </ScrollView>
+            {showButton ? (
               <View style={styles.buttonContainer}>
                 <Pressable onPress={() => navigation.navigate("Home")}>
                   <LinearGradient

@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
-  Dimensions,
   Image,
   ImageBackground,
   Pressable,
@@ -26,17 +25,11 @@ import { alazar } from "../../helpers/Alazar";
 import ApiService from "../../Services/ApiService";
 import translate from "../../I18n";
 import { useIsFocused } from "@react-navigation/native";
-// import { RewardedAd, RewardedAdEventType, TestIds, AdEventType } from '@react-native-firebase/admob';
-// import Config from '../../Config';
 import {
   horizontalScale,
   moderateScale,
   verticalScale,
 } from "../../../Metrics";
-// import { AdsContext } from "../../Context/AdsContextProvider";
-// import { AppodealInterstitialEvent } from "react-native-appodeal";
-
-// const adUnitId = Config.ADMOB_ID;
 
 const GameScreen = ({ navigation }) => {
   const TYPES = ["corazones", "treboles", "diamantes", "picas"];
@@ -80,8 +73,6 @@ const GameScreen = ({ navigation }) => {
   const [tragaperraIndex, setTragaperraIndex] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
-  // const [dataToScratchScreen, setDataToScratchScreen] = useState(null);
-  // const {showRewardedAd, stateAd} = useContext(AdsContext);
 
   useEffect(() => {
     ApiService.getGameConfig()
@@ -104,15 +95,17 @@ const GameScreen = ({ navigation }) => {
         }
       })
       .catch((error) => {
-        const errorMessage = error.message === "Network Error" ? translate('general.networkError') : translate('general.generalError')
-        Alert.alert('Error', errorMessage, [
-          { text: "OK", onPress: () => navigation.navigate('Home')},
-        ])
+        const errorMessage =
+          error.message === "Network Error"
+            ? translate("general.networkError")
+            : translate("general.generalError");
+        Alert.alert("Error", errorMessage, [
+          { text: "OK", onPress: () => navigation.navigate("Home") },
+        ]);
       });
   }, [isFocused]);
 
   const handleRandomize = () => {
-    //cardIndex random
     const cardIndexRandom = Array.from({ length: numCardsAvailable }).map(
       (_, index) => {
         return alazar(1, 12, cardIndex[index]);
@@ -120,7 +113,6 @@ const GameScreen = ({ navigation }) => {
     );
     setCardIndex(cardIndexRandom);
 
-    //dadoIndex random
     const dadoIndexRandom = Array.from({ length: numDicesAvailable }).map(
       (_, index) => {
         return alazar(1, 6, dadoIndex[index]);
@@ -128,7 +120,6 @@ const GameScreen = ({ navigation }) => {
     );
     setDadoIndex(dadoIndexRandom);
 
-    //tragaperraIndex random
     const t = [
       "siete_icon",
       "naranja_icon",
@@ -185,59 +176,7 @@ const GameScreen = ({ navigation }) => {
     setTragaperraIndex(localTragaPerraIndex);
   };
 
-  // const onCloseReward = async (reward, response) => {
-  //     setTimeout(() => {
-  //   navigation.navigate('ScratchCardScreen', {
-  //       "winningNumbers": response?.data, tragaperraIndex, dadoIndex, cardIndex
-  //      })
-  //     }, 100)
-  // }
-
-  // const showRewarded = (response) => {
-  //     // setIsLoadingAdd(true)
-  //     // const rewarded = RewardedAd.createForAdRequest(adUnitId);
-  //     setLoadingAdd(true)
-
-  //     // only for testing
-  //     const rewarded = RewardedAd.createForAdRequest('ca-app-pub-3940256099942544/5224354917');
-
-  //     rewarded.onAdEvent((type, error, reward) => {
-  //         if (type === RewardedAdEventType.LOADED) {
-  //             rewarded.show();
-  //         }
-  //         if (type === RewardedAdEventType.EARNED_REWARD) {
-  //             setLoadingAdd(false)
-  //             try {
-  //                 ApiService.postAdVisualization()
-  //             } catch (error) {
-  //             }
-  //         }
-  //         if (type === AdEventType.CLOSED) {
-  //             onCloseReward(reward, response)
-  //         }
-  //         //validar si hay mas de 20 tickets
-  //         if (type === RewardedAdEventType.FAILED_TO_LOAD) {
-  //             Alert.alert('Error', translate('general.error'))
-  //             setLoadingAdd(false)
-  //             setIsLoading(false)
-  //             return null;
-  //         }
-  //         ``
-  //         // The reward should be null if user skiped the ad
-  //         if (error) {
-  //             // setIsLoadingAdd(false)
-  //             Alert.alert('Error', translate('general.error'))
-  //             setLoadingAdd(false)
-  //             setIsLoading(false)
-  //             return null;
-  //         }
-  //         return null;
-  //     });
-  //     rewarded.load();
-  // }
-
   const playGame = async () => {
-    // 3 CARTAS
     for (let i = 0; i < numCardsAvailable; i++) {
       if (cardIndex[i] === null) {
         Alert.alert("", translate("game.selectAllCards"));
@@ -261,10 +200,6 @@ const GameScreen = ({ navigation }) => {
 
     try {
       let bet = {};
-      // bet['cardNumber'] = cardIndex[0]
-      // bet['cardNumber2'] = cardIndex[1]
-      // bet['cardNumber3'] = cardIndex[2]
-      // bet['cardNumber4'] = cardIndex[3]
 
       for (let i = 0; i < numCardsAvailable; i++) {
         if (i === 0) bet["cardNumber"] = cardIndex[i];
@@ -282,14 +217,6 @@ const GameScreen = ({ navigation }) => {
 
       setYourBet(bet);
       const response = await ApiService.playGame(bet);
-      // setDataToScratchScreen({
-      //   winningNumbers: response.data,
-      //   tragaperraIndex,
-      //   dadoIndex,
-      //   cardIndex,
-      // })
-      // setIsLoading(true)
-      // showRewardedAd()
 
       navigation.navigate("ScratchCardScreen", {
         winningNumbers: response.data,
@@ -306,31 +233,10 @@ const GameScreen = ({ navigation }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (
-  //       [AppodealInterstitialEvent.FAILED_TO_SHOW,
-  //        AppodealInterstitialEvent.FAILED_TO_LOAD,
-  //        AppodealInterstitialEvent.SHOWN
-  //       ].includes(stateAd) && dataToScratchScreen
-  //     ){
-  //         setIsLoading(false)
-  //         navigation.navigate("ScratchCardScreen", dataToScratchScreen);
-  //         setDataToScratchScreen(null)
-  //         if (stateAd === AppodealInterstitialEvent.SHOWN) {
-  //           try {
-  //             ApiService.postAdVisualization()
-  //           } catch (error) {
-  //           }
-  //         }
-  //   }
-  
-  // }, [stateAd])
-  
   return (
     <>
-      {
-        Platform.OS === "ios" && parseInt(Platform.Version) >= 11 ? 
-        (<SafeAreaView>
+      {Platform.OS === "ios" && parseInt(Platform.Version) >= 11 ? (
+        <SafeAreaView>
           <ImageBackground
             source={require("../../Assets/Images/BackgroundMain.jpg")}
             resizeMode="cover"
@@ -433,7 +339,10 @@ const GameScreen = ({ navigation }) => {
                                   handleCardSelector(TYPES[index], index)
                                 }
                               >
-                                <Card card={cardIndex[index]} type={TYPES[index]} />
+                                <Card
+                                  card={cardIndex[index]}
+                                  type={TYPES[index]}
+                                />
                               </Pressable>
                             )
                           )}
@@ -486,7 +395,9 @@ const GameScreen = ({ navigation }) => {
                               return (
                                 <View key={index}>
                                   <Pressable
-                                    onPress={() => handleTragaPerrasSelector(index)}
+                                    onPress={() =>
+                                      handleTragaPerrasSelector(index)
+                                    }
                                   >
                                     <Tragaperra
                                       styleValue={{
@@ -563,9 +474,9 @@ const GameScreen = ({ navigation }) => {
               </>
             )}
           </ImageBackground>
-        </SafeAreaView>)
-        :
-        (<ImageBackground
+        </SafeAreaView>
+      ) : (
+        <ImageBackground
           source={require("../../Assets/Images/BackgroundMain.jpg")}
           resizeMode="cover"
           style={styles.container}
@@ -667,7 +578,10 @@ const GameScreen = ({ navigation }) => {
                                 handleCardSelector(TYPES[index], index)
                               }
                             >
-                              <Card card={cardIndex[index]} type={TYPES[index]} />
+                              <Card
+                                card={cardIndex[index]}
+                                type={TYPES[index]}
+                              />
                             </Pressable>
                           )
                         )}
@@ -720,7 +634,9 @@ const GameScreen = ({ navigation }) => {
                             return (
                               <View key={index}>
                                 <Pressable
-                                  onPress={() => handleTragaPerrasSelector(index)}
+                                  onPress={() =>
+                                    handleTragaPerrasSelector(index)
+                                  }
                                 >
                                   <Tragaperra
                                     styleValue={{
@@ -796,8 +712,8 @@ const GameScreen = ({ navigation }) => {
               </View>
             </>
           )}
-        </ImageBackground>)
-      }
+        </ImageBackground>
+      )}
     </>
   );
 };
