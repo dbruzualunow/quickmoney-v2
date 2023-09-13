@@ -24,6 +24,7 @@ const LoginScreen = (props) => {
     const login = async () => {
         setError(false)
         const success = await signIn({email, password});
+        console.log({success})
         setLoading(success);
         setError(!success)
     }

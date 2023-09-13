@@ -228,6 +228,16 @@ class ApiService {
     return response;
   }
 
+  async createOnlineUser(id) {
+    const response = await this.api.post("online-users", {user: id});
+    return response;
+  }
+
+  async deleteOnlineUser() {
+    const response = await this.api.delete("online-user/logout");
+    return response;
+  }
+
   async getCanTestYourLuckInfo() {
     const response = await this.api.get("users/can-test-my-luck-info");
     return response;

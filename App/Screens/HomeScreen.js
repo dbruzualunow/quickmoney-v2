@@ -73,9 +73,13 @@ const HomeScreen = (props) => {
   };
 
   const getTotalOnlineUsers = async () => {
-    const response = await ApiService.getTotalOnlineUsers();
-    const result = response?.data?.total;
-    setTotalOnlineUsers(result);
+    try {
+      const response = await ApiService.getTotalOnlineUsers();
+      const result = response?.data?.total;
+      setTotalOnlineUsers(result);
+    } catch (error) {
+      console.log('ERROR EN EL TOTAL:', error.response.data);
+    }
   };
 
   const getTopPlayers = async () => {

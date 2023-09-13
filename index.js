@@ -21,7 +21,6 @@ PushNotification.createChannel(
 );
 PushNotification.configure({
   onNotification: function(notification) {
-    console.log('REMOTE NOTIFICATION ==>', notification)
     if (notification.foreground) {
       PushNotification.localNotification({
         title: notification.title,
