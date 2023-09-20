@@ -18,10 +18,11 @@ const DeleteAccountModal = ({ isVisible, onDismiss }) => {
     const navigation = useNavigation();
     const deleteUser = async () => {
         try {
+            await ApiService.deleteOnlineUser()
             const result = await ApiService.deleteUser(user.id)
             await onDismiss()
             await signOut()
-            navigation.navigate('SignUp1')
+            navigation.navigate('SignU  p1')
 
         } catch (error) {
             console.log({ error })

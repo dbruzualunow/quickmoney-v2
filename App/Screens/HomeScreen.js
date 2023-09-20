@@ -79,6 +79,10 @@ const HomeScreen = (props) => {
       setTotalOnlineUsers(result);
     } catch (error) {
       console.log('ERROR EN EL TOTAL:', error.response.data);
+    } finally {
+      setTimeout(() => {
+        getTotalOnlineUsers()
+      }, 4000);
     }
   };
 
@@ -105,13 +109,16 @@ const HomeScreen = (props) => {
   }
 
   useEffect(() => {
+    getTotalOnlineUsers()
+  }, [isFocused])
+
+  useEffect(() => {
     Promise.all([
       getTotalEarnedPrices(),
       getTotalChainEarnedPrices(),
       getAvaliablePrizes(),
       getTopPlayers(),
       getTopChains(),
-      getTotalOnlineUsers(),
       setTimeZoneOffset()
     ])
       .then(() => {
@@ -140,12 +147,7 @@ const HomeScreen = (props) => {
             <View style={styles.mainContainer}>
               <View style={styles.topRows}>
                 <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                  }}
+                  style={{ flexDirection: "row", alignItems: "center", marginLeft: "auto", marginRight: "auto", }}
                 >
                   <Image
                     style={styles.OnUser}
