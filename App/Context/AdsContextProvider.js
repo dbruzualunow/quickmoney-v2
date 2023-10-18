@@ -9,7 +9,7 @@ export const AdStatutes = {
   OFF: 'OFF'
 } 
 
-const ironSourceApiKey = '1a9e88185';
+const ironSourceApiKey = '1c18da5bd';
 
 const initializeAds = async (setStateAd, setInitialized) => {
   
