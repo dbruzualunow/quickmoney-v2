@@ -266,14 +266,14 @@ class ApiService {
 
   async getAllTopChains(page) {
     const response = await this.api.get(
-      `/chain-prize/all-top-chains?page=${page}&pageSize=10`
+      `/chain-prize/all-top-chains?page=${page}&pageSize=100`
     );
     return response;
   }
 
   async getAllTopPlayers(page) {
     const response = await this.api.get(
-      `/prize/top-all-players?page=${page}&pageSize=10`
+      `/prize/top-all-players?page=${page}&pageSize=100`
     );
     return response;
   }
